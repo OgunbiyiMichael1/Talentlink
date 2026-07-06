@@ -1,4 +1,5 @@
 const pool = require('../config/db')
+const { sendApplicationConfirmation, sendNewApplicationAlert, sendStatusUpdate } = require('../utils/emails')
 
 const applyToJob = async (req, res) => {
   try {
@@ -41,7 +42,26 @@ const applyToJob = async (req, res) => {
       [job_id, candidate_id]
     )
 
-    // 6. Send back the new application
+    // 6. Get candidate and employer details for emails
+    const candidate = await pool.query('SELECT * FROM users WHERE user_id = $1', [candidate_id])
+    const employer = await pool.query(
+      'SELECT u.email, ep.company_name FROM users u JOIN employer_profiles ep ON u.user_id = ep.user_id WHERE u.user_id = $1',
+      [job.rows[0].employer_id]
+    )
+
+    // 7. Send emails
+    await sendApplicationConfirmation(
+      candidate.rows[0].email,
+      job.rows[0].job_title,
+      employer.rows[0].company_name
+    )
+    await sendNewApplicationAlert(
+      employer.rows[0].email,
+      `${candidate.rows[0].first_name} ${candidate.rows[0].last_name}`,
+      job.rows[0].job_title
+    )
+
+    // 8. Send back the new application
     return res.status(201).json(result.rows[0])
 
   } catch (error) {
@@ -158,7 +178,23 @@ const updateApplicationStatus = async (req, res) => {
       [status, id]
     )
 
-    // 6. Send back updated application
+    // 6. Get candidate email and job title for status update email
+    const candidate = await pool.query(
+      'SELECT u.email FROM users u JOIN job_applications ja ON u.user_id = ja.candidate_id WHERE ja.application_id = $1',
+      [id]
+    )
+    const jobTitle = await pool.query(
+      'SELECT j.job_title FROM jobs j JOIN job_applications ja ON j.job_id = ja.job_id WHERE ja.application_id = $1',
+      [id]
+    )
+
+    await sendStatusUpdate(
+      candidate.rows[0].email,
+      jobTitle.rows[0].job_title,
+      status
+    )
+
+    // 7. Send back updated application
     return res.status(200).json(result.rows[0])
 
   } catch (error) {
