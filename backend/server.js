@@ -8,6 +8,7 @@ const employerRoutes = require('./routes/employerRoutes')
 const jobRoutes = require('./routes/jobRoutes')
 const applicationRoutes = require('./routes/applicationRoutes')
 const uploadRoutes = require('./routes/uploadRoutes')
+const connectionRoutes = require('./routes/connectionRoutes')
 const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
@@ -32,6 +33,7 @@ app.use('/api/employers', employerRoutes)
 app.use('/api/jobs', jobRoutes)
 app.use('/api/applications', applicationRoutes)
 app.use('/api/upload', uploadRoutes)
+app.use('/api/connections', connectionRoutes)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
