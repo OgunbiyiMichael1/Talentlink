@@ -2,16 +2,29 @@ const pool = require('../config/db')
 
 const getAllPosts = async (req, res) => {
   try {
-    // 1. Query all posts with user details
+    const userId = req.user.user_id
+    // 1. Query all posts with user details, like count, comment count, and whether current user liked each post
     const result = await pool.query(
-      `SELECT p.*, u.first_name, u.last_name, u.profile_picture_url 
+      `SELECT p.*, u.first_name, u.last_name, u.profile_picture_url,
+        COALESCE(l.like_count, 0) AS like_count,
+        COALESCE(c.comment_count, 0) AS comment_count,
+        EXISTS(
+          SELECT 1 FROM post_likes pl WHERE pl.post_id = p.post_id AND pl.user_id = $1
+        ) AS liked_by_user
        FROM posts p
        JOIN users u ON p.user_id = u.user_id
-       ORDER BY p.created_at DESC`
+       LEFT JOIN (
+         SELECT post_id, COUNT(*) AS like_count FROM post_likes GROUP BY post_id
+       ) l ON l.post_id = p.post_id
+       LEFT JOIN (
+         SELECT post_id, COUNT(*) AS comment_count FROM comments GROUP BY post_id
+       ) c ON c.post_id = p.post_id
+       ORDER BY p.created_at DESC`,
+      [userId]
     )
 
     // 2. Send back the posts
-    return res.status(200).json(result.rows)    
+    return res.status(200).json(result.rows)
 
   } catch (error) {
     console.error(error)

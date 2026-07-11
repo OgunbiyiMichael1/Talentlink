@@ -3,20 +3,491 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TalentLink — Where talent owners and talent finders meet. Find your next job or hire the best candidates.">
-  <meta name="keywords" content="jobs, hiring, recruitment, talent, careers, Nigeria, tech jobs">
-  <meta name="author" content="TalentLink">
-  
-  <!-- Open Graph for social sharing -->
-  <meta property="og:title" content="TalentLink">
-  <meta property="og:description" content="Where talent owners and talent finders meet">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://talentlink.com">
-
-  <title>TalentLink — Where Talent Owners and Talent Finders Meet</title>
+  <title>Dashboard — TalentLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/output.css">
+  <script>
+    if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    }
+  </script>
 </head>
-<body>
-  
+<body class="bg-[#FCFCFC] dark:bg-[#022F1F] min-h-screen">
+
+  <!-- Top Navbar -->
+  <nav class="bg-[#FCFCFC] dark:bg-[#022F1F] shadow-sm sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#014421]">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+
+      <!-- Logo -->
+      <a href="dashboard.html" class="flex items-center gap-2 shrink-0">
+        <img src="./assets/images/logo.png" alt="TalentLink" class="h-8 w-auto">
+        <span class="text-xl font-bold text-[#222222] dark:text-white hidden md:block" style="font-family: Poppins, sans-serif;">
+          Talent<span class="text-[#009B77]">Link</span>
+        </span>
+      </a>
+
+      <!-- Search Bar -->
+      <div class="flex-1 max-w-md">
+        <input type="text" id="searchInput" placeholder="Search jobs, people..."
+          class="w-full px-4 py-2 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-white dark:bg-[#014421] text-[#222222] dark:text-white placeholder-[#4B5563] focus:outline-none focus:border-[#009B77] transition-colors text-sm">
+      </div>
+
+      <!-- Right Nav -->
+      <div class="flex items-center gap-3">
+        <a href="jobs.html" class="hidden md:block text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm font-medium transition-colors">Jobs</a>
+        <a href="connections.html" class="hidden md:block text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm font-medium transition-colors">Network</a>
+        <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors">
+          <span id="themeIcon">🌙</span>
+        </button>
+        <!-- Profile Avatar -->
+        <div id="avatarBtn" class="w-9 h-9 bg-[#009B77] rounded-full flex items-center justify-center text-white font-bold cursor-pointer text-sm">
+          T
+        </div>
+        <button onclick="logout(this)" class="hidden md:block text-sm text-red-500 hover:text-red-700 font-medium transition-colors">Logout</button>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Main Layout -->
+  <div class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+
+    <!-- Left Sidebar -->
+    <aside class="hidden md:block md:col-span-1">
+      <div class="bg-white dark:bg-[#014421] rounded-2xl shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 overflow-hidden sticky top-20">
+
+        <!-- Profile Summary -->
+        <div class="bg-linear-to-br from-[#014421] to-[#009B77] p-6 text-center text-white">
+          <div id="sidebarAvatar" class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-3">T</div>
+          <p id="sidebarName" class="font-bold text-lg" style="font-family: Poppins, sans-serif;">Loading...</p>
+          <p id="sidebarHeadline" class="text-[#D9D9D9] text-sm mt-1">TalentLink Member</p>
+        </div>
+
+        <!-- Nav Links -->
+        <nav class="p-4 flex flex-col gap-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#009B77]/10 text-[#009B77] font-medium text-sm">
+            🏠 Feed
+          </a>
+          <a href="profile.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm transition-colors">
+            👤 My Profile
+          </a>
+          <a href="jobs.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm transition-colors">
+            💼 Browse Jobs
+          </a>
+          <a href="applications.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm transition-colors">
+            📋 My Applications
+          </a>
+          <a href="connections.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm transition-colors">
+            🤝 My Network
+          </a>
+          <hr class="border-[#E5E7EB] dark:border-[#009B77]/20 my-2">
+          <button onclick="logout(this)" class="flex items-center gap-3 px-3 py-2 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 font-medium text-sm transition-colors w-full text-left">
+            🚪 Logout
+          </button>
+        </nav>
+
+      </div>
+    </aside>
+
+    <!-- Main Feed -->
+    <main class="md:col-span-2 flex flex-col gap-6">
+
+      <!-- Create Post Box -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 p-4">
+        <div class="flex items-center gap-3 mb-3">
+          <div id="postAvatar" class="w-10 h-10 bg-[#009B77] rounded-full flex items-center justify-center text-white font-bold shrink-0">T</div>
+          <input type="text" id="postContent" placeholder="Share something with your network..."
+            class="flex-1 px-4 py-2 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white placeholder-[#4B5563] focus:outline-none focus:border-[#009B77] transition-colors text-sm">
+        </div>
+        <div class="flex items-center justify-between">
+          <div class="flex gap-2">
+            <button class="flex items-center gap-1 text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm px-3 py-1 rounded-lg hover:bg-[#009B77]/10 transition-colors">
+              📷 Photo
+            </button>
+          </div>
+          <button onclick="createPost()" class="bg-[#009B77] hover:bg-[#007A5E] text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
+            Post
+          </button>
+        </div>
+      </div>
+
+      <!-- Posts Feed -->
+      <div id="postsContainer" class="flex flex-col gap-4">
+        <!-- Loading state -->
+        <div id="postsLoading" class="bg-white dark:bg-[#014421] rounded-2xl p-8 text-center border border-[#E5E7EB] dark:border-[#009B77]/20">
+          <p class="text-[#4B5563] dark:text-[#D9D9D9]">Loading posts...</p>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Right Panel -->
+    <aside class="hidden md:block md:col-span-1">
+
+      <!-- Active Jobs -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 p-5 mb-6">
+        <h3 class="font-bold text-[#222222] dark:text-white mb-4 text-sm" style="font-family: Poppins, sans-serif;">Recent Jobs</h3>
+        <div id="recentJobs" class="flex flex-col gap-3">
+          <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">Loading jobs...</p>
+        </div>
+        <a href="jobs.html" class="block text-center text-[#009B77] text-sm font-medium mt-4 hover:underline">View all jobs →</a>
+      </div>
+
+      <!-- Footer Links -->
+      <div class="px-2">
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs leading-relaxed">
+          <a href="#" class="hover:text-[#009B77]">Privacy Policy</a> · 
+          <a href="#" class="hover:text-[#009B77]">Terms of Service</a> · 
+          <a href="#" class="hover:text-[#009B77]">About TalentLink</a>
+        </p>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs mt-2">© 2026 TalentLink</p>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script src="./js/helpers.js"></script>
+  <script>
+    // Dark mode
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark')
+      localStorage.theme = isDark ? 'dark' : 'light'
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
+    })
+
+    // Get logged in user
+    const user = JSON.parse(localStorage.getItem('user'))
+
+    // Redirect if not logged in
+    if (!user) {
+      window.location.href = 'login.html'
+    }
+
+    // Set user info in sidebar
+    if (user) {
+      const initials = user.first_name[0] + user.last_name[0]
+      document.getElementById('sidebarAvatar').textContent = initials
+      document.getElementById('postAvatar').textContent = initials
+      document.getElementById('avatarBtn').textContent = initials
+      document.getElementById('sidebarName').textContent = `${user.first_name} ${user.last_name}`
+    }
+
+    // Logout
+    async function logout(btn) {
+      setButtonLoading(btn, '⏳ Logging out...')
+
+      try {
+        await fetch('http://127.0.0.1:5000/api/auth/logout', {
+          method: 'POST',
+          credentials: 'include'
+        })
+      } catch (error) {
+        console.error(error)
+      } finally {
+        localStorage.removeItem('user')
+        window.location.href = 'login.html'
+      }
+    }
+
+    // Load posts
+    async function loadPosts() {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/posts', {
+          credentials: 'include'
+        })
+        const posts = await response.json()
+
+        const container = document.getElementById('postsContainer')
+        document.getElementById('postsLoading').remove()
+
+        if (posts.length === 0) {
+          container.innerHTML = `
+            <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 text-center border border-[#E5E7EB] dark:border-[#009B77]/20">
+              <p class="text-[#4B5563] dark:text-[#D9D9D9]">No posts yet. Be the first to share something!</p>
+            </div>
+          `
+          return
+        }
+
+        posts.forEach(post => {
+          const initials = post.first_name[0] + post.last_name[0]
+          const card = document.createElement('div')
+          card.className = 'bg-white dark:bg-[#014421] rounded-2xl shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 p-5'
+          card.innerHTML = `
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-[#009B77] rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0">${initials}</div>
+              <div>
+                <p class="font-bold text-[#222222] dark:text-white text-sm">${post.first_name} ${post.last_name}</p>
+                <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">${new Date(post.created_at).toLocaleDateString()}</p>
+              </div>
+            </div>
+            <p class="text-[#222222] dark:text-white text-sm leading-relaxed mb-4">${post.content}</p>
+            ${post.media_url ? `<img src="${post.media_url}" class="w-full rounded-lg mb-4 object-cover max-h-64">` : ''}
+            <div class="flex items-center gap-4 pt-3 border-t border-[#E5E7EB] dark:border-[#009B77]/20">
+              <button onclick="likePost(${post.post_id}, this)" 
+                class="like-btn flex items-center gap-1 ${post.liked_by_user ? 'text-[#009B77] dark:text-[#9EEAD2]' : 'text-[#4B5563] dark:text-[#D9D9D9]'} hover:text-[#009B77] text-sm transition-colors"
+                data-post-id="${post.post_id}" data-liked="${post.liked_by_user}">
+                👍 <span class="like-count">${post.like_count || 0}</span>
+              </button>
+              <button onclick="toggleComments(${post.post_id})" data-comment-post-id="${post.post_id}" class="flex items-center gap-1 text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">
+                💬 <span class="comment-count">${post.comment_count || 0}</span>
+              </button>
+              ${post.user_id === user.user_id ? `
+                <button onclick="deletePost(${post.post_id}, this)" class="flex items-center gap-1 text-red-400 hover:text-red-600 text-sm transition-colors ml-auto">
+                  🗑️ Delete
+                </button>
+              ` : ''}
+            </div>
+            <div id="comments-${post.post_id}" data-loaded="false" class="hidden mt-3 pt-3 border-t border-[#E5E7EB] dark:border-[#009B77]/20">
+              <div class="comment-list space-y-3 mb-3"></div>
+              <div class="flex gap-2">
+                <input type="text" id="commentInput-${post.post_id}" placeholder="Write a comment..."
+                  class="flex-1 px-3 py-2 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white text-xs focus:outline-none focus:border-[#009B77]">
+                <button onclick="addComment(${post.post_id})" class="bg-[#009B77] text-white px-3 py-2 rounded-lg text-xs hover:bg-[#007A5E]">Send</button>
+              </div>
+            </div>
+          `
+          container.appendChild(card)
+        })
+
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    // Load recent jobs
+    async function loadRecentJobs() {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/jobs', {
+          credentials: 'include'
+        })
+        const jobs = await response.json()
+        const container = document.getElementById('recentJobs')
+        container.innerHTML = ''
+
+        jobs.slice(0, 3).forEach(job => {
+          container.innerHTML += `
+            <a href="job-detail.html?id=${job.job_id}" class="block hover:bg-[#009B77]/5 rounded-lg p-2 transition-colors">
+              <p class="font-medium text-[#222222] dark:text-white text-xs">${job.job_title}</p>
+              <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">${job.job_location} · ${job.job_type}</p>
+            </a>
+          `
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    // Create post
+    async function createPost() {
+      const btn = document.querySelector('button[onclick="createPost()"]')
+      setButtonLoading(btn, '⏳ Posting...')
+
+      const content = document.getElementById('postContent').value.trim()
+      if (!content) {
+        resetButtonState(btn, 'Post')
+        return
+      }
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/posts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ content })
+        })
+
+        if (response.ok) {
+          document.getElementById('postContent').value = ''
+          document.getElementById('postsContainer').innerHTML = ''
+          loadPosts()
+          if (btn) {
+            btn.textContent = '✅ Posted!'
+            setTimeout(() => {
+              resetButtonState(btn, 'Post')
+            }, 1500)
+          }
+          return
+        }
+      } catch (error) {
+        console.error(error)
+      }
+
+      resetButtonState(btn, 'Post')
+    }
+
+    // Like post
+    async function likePost(postId, btn) {
+      const isLiked = btn.dataset.liked === 'true'
+      const current = parseInt(btn.querySelector('.like-count')?.textContent || '0', 10)
+      let shouldReset = true
+
+      setButtonLoading(btn, `⏳ ${isLiked ? 'Unliking' : 'Liking'}...`)
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/likes', {
+          method: isLiked ? 'DELETE' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ post_id: postId })
+        })
+
+        const data = await response.json().catch(() => ({}))
+        if (!response.ok) {
+          alert(data.message || 'Unable to update like')
+          return
+        }
+
+        btn.dataset.liked = (!isLiked).toString()
+        if (!isLiked) {
+          btn.classList.add('text-[#009B77]', 'dark:text-[#9EEAD2]')
+          btn.classList.remove('text-[#4B5563]', 'dark:text-[#D9D9D9]')
+        } else {
+          btn.classList.remove('text-[#009B77]', 'dark:text-[#9EEAD2]')
+          btn.classList.add('text-[#4B5563]', 'dark:text-[#D9D9D9]')
+        }
+
+        resetButtonState(btn, '👍 Like')
+        shouldReset = false
+
+        const count = btn.querySelector('.like-count')
+        const newCount = isLiked ? Math.max(0, current - 1) : current + 1
+        if (count) count.textContent = newCount
+      } catch (error) {
+        console.error(error)
+      } finally {
+        if (shouldReset) resetButtonState(btn, '👍 Like')
+      }
+    }
+
+    async function loadComments(postId) {
+      const section = document.getElementById(`comments-${postId}`)
+      const list = section.querySelector('.comment-list')
+      list.innerHTML = `<p class="text-sm text-[#4B5563] dark:text-[#D9D9D9]">Loading comments...</p>`
+
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/comments/post/${postId}`, {
+          credentials: 'include'
+        })
+        if (!response.ok) {
+          list.innerHTML = `<p class="text-sm text-[#ef4444] dark:text-[#fca5a5]">Unable to load comments.</p>`
+          return
+        }
+
+        const comments = await response.json()
+        if (comments.length === 0) {
+          list.innerHTML = `<p class="text-sm text-[#4B5563] dark:text-[#D9D9D9]">No comments yet.</p>`
+        } else {
+          list.innerHTML = comments.map(comment => `
+            <div class="flex gap-2">
+              <div class="w-7 h-7 bg-[#009B77] rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
+                ${comment.first_name[0]}
+              </div>
+              <div class="bg-[#FCFCFC] dark:bg-[#022F1F] rounded-lg px-3 py-2 flex-1">
+                <p class="font-medium text-[#222222] dark:text-white text-xs">${comment.first_name} ${comment.last_name}</p>
+                <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs mt-1">${comment.content}</p>
+              </div>
+            </div>
+          `).join('')
+        }
+
+        const commentBtn = document.querySelector(`[data-comment-post-id="${postId}"] .comment-count`)
+        if (commentBtn) commentBtn.textContent = comments.length
+        section.dataset.loaded = 'true'
+      } catch (error) {
+        console.error(error)
+        list.innerHTML = `<p class="text-sm text-[#ef4444] dark:text-[#fca5a5]">Unable to load comments.</p>`
+      }
+    }
+
+    // Toggle comments
+    async function toggleComments(postId) {
+      const section = document.getElementById(`comments-${postId}`)
+      const isHidden = section.classList.toggle('hidden')
+      if (!isHidden && section.dataset.loaded !== 'true') {
+        await loadComments(postId)
+      }
+    }
+
+    // Add comment
+    async function addComment(postId) {
+      const input = document.getElementById(`commentInput-${postId}`)
+      const btn = document.querySelector(`#comments-${postId} button[onclick="addComment(${postId})"]`)
+      const content = input.value.trim()
+      if (!content) return
+
+      setButtonLoading(btn, '⏳ Sending...')
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/comments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ post_id: postId, content })
+        })
+
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}))
+          alert(data.message || 'Unable to send comment')
+          return
+        }
+
+        const comment = await response.json()
+        input.value = ''
+
+        const commentsSection = document.getElementById(`comments-${postId}`)
+        const commentList = commentsSection.querySelector('.comment-list')
+        const commentEl = document.createElement('div')
+        commentEl.className = 'flex gap-2'
+        commentEl.innerHTML = `
+          <div class="w-7 h-7 bg-[#009B77] rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
+            ${user.first_name[0]}
+          </div>
+          <div class="bg-[#FCFCFC] dark:bg-[#022F1F] rounded-lg px-3 py-2 flex-1">
+            <p class="font-medium text-[#222222] dark:text-white text-xs">${user.first_name} ${user.last_name}</p>
+            <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs mt-1">${content}</p>
+          </div>
+        `
+
+        if (commentList && commentList.textContent.includes('No comments yet.')) {
+          commentList.innerHTML = ''
+        }
+        commentList.appendChild(commentEl)
+
+        const commentCount = document.querySelector(`[data-comment-post-id="${postId}"] .comment-count`)
+        if (commentCount) {
+          commentCount.textContent = parseInt(commentCount.textContent || '0', 10) + 1
+        }
+      } catch (error) {
+        console.error(error)
+      } finally {
+        resetButtonState(btn, 'Send')
+      }
+    }
+
+    // Delete post
+    async function deletePost(postId, btn) {
+      if (!confirm('Delete this post?')) return
+      setButtonLoading(btn, '⏳ Deleting...')
+      try {
+        await fetch(`http://127.0.0.1:5000/api/posts/${postId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+        document.getElementById('postsContainer').innerHTML = ''
+        loadPosts()
+      } catch (error) {
+        console.error(error)
+      } finally {
+        resetButtonState(btn, '🗑️ Delete')
+      }
+    }
+
+    // Init
+    loadPosts()
+    loadRecentJobs()
+  </script>
+
 </body>
 </html>

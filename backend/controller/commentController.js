@@ -30,6 +30,26 @@ const createComment = async (req, res) => {
   }
 }
 
+const getCommentsByPost = async (req, res) => {
+  try {
+    const { postId } = req.params
+
+    const result = await pool.query(
+      `SELECT c.*, u.first_name, u.last_name, u.profile_picture_url
+       FROM comments c
+       JOIN users u ON c.user_id = u.user_id
+       WHERE c.post_id = $1
+       ORDER BY c.created_at ASC`,
+      [postId]
+    )
+
+    return res.status(200).json(result.rows)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
 const updateComment = async (req, res) => {
   try {
     // 1. Get comment id from URL
@@ -101,4 +121,4 @@ const deleteComment = async (req, res) => {
   }
 }
 
-module.exports = { createComment, updateComment, deleteComment }
+module.exports = { createComment, getCommentsByPost, updateComment, deleteComment }

@@ -3,20 +3,180 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TalentLink — Where talent owners and talent finders meet. Find your next job or hire the best candidates.">
-  <meta name="keywords" content="jobs, hiring, recruitment, talent, careers, Nigeria, tech jobs">
-  <meta name="author" content="TalentLink">
-  
-  <!-- Open Graph for social sharing -->
-  <meta property="og:title" content="TalentLink">
-  <meta property="og:description" content="Where talent owners and talent finders meet">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://talentlink.com">
-
-  <title>TalentLink — Where Talent Owners and Talent Finders Meet</title>
+  <meta name="description" content="Login to your TalentLink account.">
+  <title>Login — TalentLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/output.css">
+  <script>
+    if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    }
+  </script>
 </head>
-<body>
-  
+<body class="bg-[#FCFCFC] dark:bg-[#022F1F] min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-[#FCFCFC] dark:bg-[#022F1F] shadow-sm sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#014421]">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="./assets/images/logo.png" alt="TalentLink Logo" class="h-8 w-auto">
+        <span class="text-xl font-bold text-[#222222] dark:text-white" style="font-family: Poppins, sans-serif;">
+          Talent<span class="text-[#009B77]">Link</span>
+        </span>
+      </a>
+      <div class="flex items-center gap-4">
+        <a href="register.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors">Register</a>
+        <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="min-h-screen grid md:grid-cols-2">
+
+    <!-- Left: Brand Panel -->
+    <div class="hidden md:flex flex-col justify-center bg-linear-to-br from-[#014421] to-[#009B77] px-12 py-16 text-white">
+      <h1 class="text-4xl font-bold mb-6 leading-tight" style="font-family: Poppins, sans-serif;">
+        Welcome Back to TalentLink
+      </h1>
+      <p class="text-[#D9D9D9] text-lg mb-10 leading-relaxed">
+        Your next opportunity or your next hire is just a login away.
+      </p>
+      <ul class="flex flex-col gap-4">
+        <li class="flex items-center gap-3">
+          <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0">✓</div>
+          <span class="text-[#D9D9D9]">Track your applications in real time</span>
+        </li>
+        <li class="flex items-center gap-3">
+          <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0">✓</div>
+          <span class="text-[#D9D9D9]">Connect with top talent and companies</span>
+        </li>
+        <li class="flex items-center gap-3">
+          <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0">✓</div>
+          <span class="text-[#D9D9D9]">Stay updated with your network's activity</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right: Login Form -->
+    <div class="flex flex-col justify-center px-6 md:px-12 py-16">
+      <div class="max-w-md w-full mx-auto">
+
+        <h2 class="text-3xl font-bold text-[#222222] dark:text-white mb-2" style="font-family: Poppins, sans-serif;">
+          Login
+        </h2>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] mb-8">
+          Don't have an account? <a href="register.html" class="text-[#009B77] hover:underline font-medium">Register here</a>
+        </p>
+
+        <!-- Error Message -->
+        <div id="errorMsg" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg mb-6 text-sm"></div>
+
+        <!-- Form -->
+        <div class="flex flex-col gap-5">
+
+          <!-- Email -->
+          <div>
+            <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">Email Address</label>
+            <input type="email" id="email" placeholder="john@example.com"
+              class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-white dark:bg-[#014421] text-[#222222] dark:text-white placeholder-[#4B5563] focus:outline-none focus:border-[#009B77] transition-colors">
+          </div>
+
+          <!-- Password -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-sm font-medium text-[#222222] dark:text-white">Password</label>
+              <a href="#" class="text-sm text-[#009B77] hover:underline">Forgot password?</a>
+            </div>
+            <div class="relative">
+              <input type="password" id="password" placeholder="Enter your password"
+                class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-white dark:bg-[#014421] text-[#222222] dark:text-white placeholder-[#4B5563] focus:outline-none focus:border-[#009B77] transition-colors pr-12">
+              <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-[#4B5563] hover:text-[#009B77]">
+                <span id="eyeIcon">👁️</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button onclick="login()" id="submitBtn"
+            class="w-full bg-[#009B77] hover:bg-[#007A5E] text-white py-3 rounded-lg font-semibold transition-colors mt-2">
+            Login
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./js/helpers.js"></script>
+  <script>
+    // Dark mode
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark')
+      localStorage.theme = isDark ? 'dark' : 'light'
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
+    })
+
+    // Toggle password visibility
+    function togglePassword() {
+      const input = document.getElementById('password')
+      input.type = input.type === 'password' ? 'text' : 'password'
+    }
+
+    // Login function
+    async function login() {
+      const errorMsg = document.getElementById('errorMsg')
+      const submitBtn = document.getElementById('submitBtn')
+
+      const email = document.getElementById('email').value.trim()
+      const password = document.getElementById('password').value
+
+      if (!email || !password) {
+        errorMsg.textContent = 'Please fill in all fields'
+        errorMsg.classList.remove('hidden')
+        return
+      }
+
+      setButtonLoading(submitBtn, '⏳ Logging in...')
+      errorMsg.classList.add('hidden')
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email, password })
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          errorMsg.textContent = data.message || 'Login failed'
+          errorMsg.classList.remove('hidden')
+          resetButtonState(submitBtn, 'Login')
+          return
+        }
+
+        // Store user info
+        localStorage.setItem('user', JSON.stringify(data.user))
+
+        // Redirect based on role
+        // After successful login check for redirect
+const params = new URLSearchParams(window.location.search)
+const redirect = params.get('redirect')
+window.location.href = redirect || (data.user.role === 'employer' ? 'employer-dashboard.html' : 'dashboard.html')
+
+      } catch (error) {
+        errorMsg.textContent = 'Something went wrong. Please try again.'
+        errorMsg.classList.remove('hidden')
+        resetButtonState(submitBtn, 'Login')
+      }
+    }
+  </script>
+
 </body>
 </html>

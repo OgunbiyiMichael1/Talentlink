@@ -3,20 +3,249 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TalentLink — Where talent owners and talent finders meet. Find your next job or hire the best candidates.">
-  <meta name="keywords" content="jobs, hiring, recruitment, talent, careers, Nigeria, tech jobs">
-  <meta name="author" content="TalentLink">
-  
-  <!-- Open Graph for social sharing -->
-  <meta property="og:title" content="TalentLink">
-  <meta property="og:description" content="Where talent owners and talent finders meet">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://talentlink.com">
-
-  <title>TalentLink — Where Talent Owners and Talent Finders Meet</title>
+  <title>Job Details — TalentLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/output.css">
+  <script>
+    if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    }
+  </script>
 </head>
-<body>
-  
+<body class="bg-[#FCFCFC] dark:bg-[#022F1F] min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-[#FCFCFC] dark:bg-[#022F1F] shadow-sm sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#014421]">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="./assets/images/logo.png" alt="TalentLink Logo" class="h-8 w-auto">
+        <span class="text-xl font-bold text-[#222222] dark:text-white" style="font-family: Poppins, sans-serif;">
+          Talent<span class="text-[#009B77]">Link</span>
+        </span>
+      </a>
+      <div class="hidden md:flex items-center gap-4">
+        <a href="jobs.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors text-sm">Browse Jobs</a>
+        <a href="dashboard.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors text-sm">Dashboard</a>
+        <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+      <div class="flex md:hidden items-center gap-2">
+        <button id="themeToggleMobile" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421]">
+          <span id="themeIconMobile">🌙</span>
+        </button>
+        <button id="hamburger" class="p-2 text-[#222222] dark:text-white">
+          <svg id="menuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="menuClose" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="md:hidden bg-[#FCFCFC] dark:bg-[#022F1F] border-t border-[#E5E7EB] dark:border-[#014421] px-4 py-4 flex flex-col gap-4">
+      <a href="jobs.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium">Browse Jobs</a>
+      <a href="dashboard.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium">Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
+
+    <!-- Left: Job Details -->
+    <div class="md:col-span-2">
+
+      <!-- Loading -->
+      <div id="loadingState" class="bg-white dark:bg-[#014421] rounded-2xl p-8 border border-[#E5E7EB] dark:border-[#009B77]/20">
+        <p class="text-[#4B5563] dark:text-[#D9D9D9]">Loading job details...</p>
+      </div>
+
+      <!-- Job Content -->
+      <div id="jobContent" class="hidden">
+
+        <!-- Header Card -->
+        <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 border border-[#E5E7EB] dark:border-[#009B77]/20 mb-6">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="w-16 h-16 bg-[#009B77]/10 rounded-xl flex items-center justify-center text-3xl shrink-0">🏢</div>
+            <div class="flex-1">
+              <h1 id="jobTitle" class="text-2xl font-bold text-[#222222] dark:text-white mb-1" style="font-family: Poppins, sans-serif;"></h1>
+              <p id="jobLocation" class="text-[#4B5563] dark:text-[#D9D9D9] text-sm mb-3"></p>
+              <div class="flex flex-wrap gap-2">
+                <span id="jobType" class="text-xs px-3 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 font-medium"></span>
+                <span id="jobSalary" class="text-xs px-3 py-1 rounded-full bg-[#009B77]/10 text-[#009B77] font-medium"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Apply Button -->
+          <button id="applyBtn" onclick="applyToJob()"
+            class="w-full md:w-auto bg-[#009B77] hover:bg-[#007A5E] text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+            Apply Now
+          </button>
+        </div>
+
+        <!-- Description -->
+        <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 border border-[#E5E7EB] dark:border-[#009B77]/20 mb-6">
+          <h2 class="text-lg font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">Job Description</h2>
+          <p id="jobDescription" class="text-[#4B5563] dark:text-[#D9D9D9] leading-relaxed whitespace-pre-line"></p>
+        </div>
+
+        <!-- Requirements -->
+        <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 border border-[#E5E7EB] dark:border-[#009B77]/20">
+          <h2 class="text-lg font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">Requirements</h2>
+          <p id="jobRequirements" class="text-[#4B5563] dark:text-[#D9D9D9] leading-relaxed whitespace-pre-line"></p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right: Sidebar -->
+    <div class="md:col-span-1">
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-6 border border-[#E5E7EB] dark:border-[#009B77]/20 sticky top-24">
+        <h3 class="font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">Job Overview</h3>
+        <div class="flex flex-col gap-4">
+          <div>
+            <p class="text-xs text-[#4B5563] dark:text-[#D9D9D9] uppercase tracking-wider mb-1">Job Type</p>
+            <p id="overviewType" class="font-medium text-[#222222] dark:text-white text-sm"></p>
+          </div>
+          <div>
+            <p class="text-xs text-[#4B5563] dark:text-[#D9D9D9] uppercase tracking-wider mb-1">Location</p>
+            <p id="overviewLocation" class="font-medium text-[#222222] dark:text-white text-sm"></p>
+          </div>
+          <div>
+            <p class="text-xs text-[#4B5563] dark:text-[#D9D9D9] uppercase tracking-wider mb-1">Salary</p>
+            <p id="overviewSalary" class="font-medium text-[#009B77] text-sm"></p>
+          </div>
+          <div>
+            <p class="text-xs text-[#4B5563] dark:text-[#D9D9D9] uppercase tracking-wider mb-1">Posted</p>
+            <p id="overviewDate" class="font-medium text-[#222222] dark:text-white text-sm"></p>
+          </div>
+        </div>
+
+        <hr class="border-[#E5E7EB] dark:border-[#009B77]/20 my-4">
+
+        <a href="jobs.html" class="block text-center text-[#009B77] text-sm font-medium hover:underline">← Back to Jobs</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./js/helpers.js"></script>
+  <script>
+    // Dark mode
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark')
+      localStorage.theme = isDark ? 'dark' : 'light'
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
+      document.getElementById('themeIconMobile').textContent = isDark ? '☀️' : '🌙'
+    }
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme)
+    document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme)
+
+    // Hamburger
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden')
+      document.getElementById('menuOpen').classList.toggle('hidden')
+      document.getElementById('menuClose').classList.toggle('hidden')
+    })
+
+    // Get job ID from URL
+    const params = new URLSearchParams(window.location.search)
+    const jobId = params.get('id')
+    const user = JSON.parse(localStorage.getItem('user'))
+
+    let currentJob = null
+
+    // Load job details
+    async function loadJob() {
+      if (!jobId) {
+        window.location.href = 'jobs.html'
+        return
+      }
+
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/jobs/${jobId}`, {
+          credentials: 'include'
+        })
+        const job = await response.json()
+        currentJob = job
+
+        document.getElementById('loadingState').classList.add('hidden')
+        document.getElementById('jobContent').classList.remove('hidden')
+
+        // Fill in details
+        document.getElementById('jobTitle').textContent = job.job_title
+        document.getElementById('jobLocation').textContent = `📍 ${job.job_location}`
+        document.getElementById('jobType').textContent = job.job_type
+        document.getElementById('jobSalary').textContent = job.salary_range ? `💰 ${job.salary_range}` : ''
+        document.getElementById('jobDescription').textContent = job.job_description
+        document.getElementById('jobRequirements').textContent = job.requirements
+        document.getElementById('overviewType').textContent = job.job_type
+        document.getElementById('overviewLocation').textContent = job.job_location
+        document.getElementById('overviewSalary').textContent = job.salary_range || 'Not specified'
+        document.getElementById('overviewDate').textContent = new Date(job.created_at).toLocaleDateString()
+
+        document.title = `${job.job_title} — TalentLink`
+
+        // If job is closed
+        if (!job.is_active) {
+          const applyBtn = document.getElementById('applyBtn')
+          applyBtn.textContent = 'Applications Closed'
+          applyBtn.disabled = true
+          applyBtn.className = 'w-full md:w-auto bg-[#D9D9D9] text-[#4B5563] px-8 py-3 rounded-lg font-semibold cursor-not-allowed'
+        }
+
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    // Apply to job
+    async function applyToJob() {
+      if (!user) {
+  window.location.href = `login.html?redirect=job-detail.html?id=${jobId}`
+  return
+}
+
+      if (user.role === 'employer') {
+        alert('Employers cannot apply to jobs.')
+        return
+      }
+
+      const applyBtn = document.getElementById('applyBtn')
+      setButtonLoading(applyBtn, '⏳ Applying...')
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/applications', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ job_id: parseInt(jobId) })
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          applyBtn.textContent = '✅ Applied Successfully'
+          applyBtn.className = 'w-full md:w-auto bg-green-500 text-white px-8 py-3 rounded-lg font-semibold cursor-not-allowed'
+        } else {
+          applyBtn.textContent = data.message === 'You have already applied to this job' ? '✅ Already Applied' : 'Apply Now'
+          applyBtn.disabled = data.message === 'You have already applied to this job'
+          if (data.message !== 'You have already applied to this job') {
+            alert(data.message)
+          }
+        }
+
+      } catch (error) {
+        console.error(error)
+      } finally {
+        if (!applyBtn.disabled) resetButtonState(applyBtn, 'Apply Now')
+      }
+    }
+
+    loadJob()
+  </script>
+
 </body>
 </html>

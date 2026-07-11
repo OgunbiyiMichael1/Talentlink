@@ -3,20 +3,222 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TalentLink — Where talent owners and talent finders meet. Find your next job or hire the best candidates.">
-  <meta name="keywords" content="jobs, hiring, recruitment, talent, careers, Nigeria, tech jobs">
-  <meta name="author" content="TalentLink">
-  
-  <!-- Open Graph for social sharing -->
-  <meta property="og:title" content="TalentLink">
-  <meta property="og:description" content="Where talent owners and talent finders meet">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://talentlink.com">
-
-  <title>TalentLink — Where Talent Owners and Talent Finders Meet</title>
+  <meta name="description" content="Browse all job listings on TalentLink.">
+  <title>Browse Jobs — TalentLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/output.css">
+  <script>
+    if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    }
+  </script>
 </head>
-<body>
-  
+<body class="bg-[#FCFCFC] dark:bg-[#022F1F] min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-[#FCFCFC] dark:bg-[#022F1F] shadow-sm sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#014421]">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2">
+      <img src="./assets/images/logo.png" alt="TalentLink Logo" class="h-8 w-auto">
+      <span class="text-xl font-bold text-[#222222] dark:text-white" style="font-family: Poppins, sans-serif;">
+        Talent<span class="text-[#009B77]">Link</span>
+      </span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-4">
+      <a href="dashboard.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors text-sm">Dashboard</a>
+      <a href="login.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors text-sm">Login</a>
+      <a href="register.html" class="bg-[#009B77] text-white px-4 py-2 rounded-lg hover:bg-[#007A5E] font-medium transition-colors text-sm">Get Started</a>
+      <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors">
+        <span id="themeIcon">🌙</span>
+      </button>
+    </div>
+
+    <!-- Mobile -->
+    <div class="flex md:hidden items-center gap-2">
+      <button id="themeToggleMobile" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white">
+        <span id="themeIconMobile">🌙</span>
+      </button>
+      <button id="hamburger" class="p-2 rounded-lg text-[#222222] dark:text-white">
+        <svg id="menuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="menuClose" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="md:hidden bg-[#FCFCFC] dark:bg-[#022F1F] border-t border-[#E5E7EB] dark:border-[#014421] px-4 py-4 flex flex-col gap-4">
+    <a href="dashboard.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors">Dashboard</a>
+    <a href="login.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors">Login</a>
+    <a href="register.html" class="bg-[#009B77] text-white px-4 py-2 rounded-lg hover:bg-[#007A5E] font-medium transition-colors text-center">Get Started</a>
+  </div>
+</nav>
+  <!-- Hero Search -->
+  <div class="bg-linear-to-br from-[#014421] to-[#009B77] py-14">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-3xl md:text-5xl font-bold text-white mb-4" style="font-family: Poppins, sans-serif;">
+        Find Your Next Opportunity
+      </h1>
+      <p class="text-[#D9D9D9] text-lg mb-8">Browse hundreds of jobs from top companies</p>
+
+      <!-- Search Bar -->
+      <div class="bg-white dark:bg-[#014421] rounded-xl p-3 flex flex-col md:flex-row gap-3 shadow-lg">
+        <input type="text" id="searchInput" placeholder="Job title or keyword..."
+          class="flex-1 px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#009B77]/30 bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white placeholder-[#4B5563] focus:outline-none focus:border-[#009B77] transition-colors">
+        <select id="jobTypeFilter"
+          class="px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#009B77]/30 bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+          <option value="">All Types</option>
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+          <option value="Contract">Contract</option>
+          <option value="Internship">Internship</option>
+        </select>
+        <button onclick="searchJobs()" class="bg-[#009B77] hover:bg-[#007A5E] text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jobs Section -->
+  <div class="max-w-6xl mx-auto px-4 py-10">
+
+    <!-- Results Header -->
+    <div class="flex items-center justify-between mb-6">
+      <p id="resultsCount" class="text-[#4B5563] dark:text-[#D9D9D9] text-sm">Loading jobs...</p>
+      <select id="sortFilter" onchange="searchJobs()"
+        class="px-3 py-2 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-white dark:bg-[#014421] text-[#222222] dark:text-white text-sm focus:outline-none focus:border-[#009B77]">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+      </select>
+    </div>
+
+    <!-- Jobs Grid -->
+    <div id="jobsContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Jobs load here -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden text-center py-16">
+      <p class="text-4xl mb-4">🔍</p>
+      <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-2" style="font-family: Poppins, sans-serif;">No jobs found</h3>
+      <p class="text-[#4B5563] dark:text-[#D9D9D9]">Try adjusting your search or check back later.</p>
+    </div>
+
+  </div>
+
+  <script src="./js/helpers.js"></script>
+  <script>
+    // Dark mode
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark')
+      localStorage.theme = isDark ? 'dark' : 'light'
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
+    })
+
+    // Search jobs
+    async function searchJobs() {
+      const btn = document.querySelector('button[onclick="searchJobs()"]')
+      setButtonLoading(btn, '⏳ Searching...')
+
+      const search = document.getElementById('searchInput').value.trim()
+      const jobType = document.getElementById('jobTypeFilter').value
+
+      let url = `http://127.0.0.1:5000/api/jobs?`
+      if (search) url += `search=${encodeURIComponent(search)}&`
+      if (jobType) url += `job_type=${encodeURIComponent(jobType)}`
+
+      try {
+        const response = await fetch(url, { credentials: 'include' })
+        const jobs = await response.json()
+        renderJobs(jobs)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        resetButtonState(btn, 'Search')
+      }
+    }
+
+    // Render jobs
+    function renderJobs(jobs) {
+      const container = document.getElementById('jobsContainer')
+      const emptyState = document.getElementById('emptyState')
+      const resultsCount = document.getElementById('resultsCount')
+
+      container.innerHTML = ''
+      resultsCount.textContent = `${jobs.length} job${jobs.length !== 1 ? 's' : ''} found`
+
+      if (jobs.length === 0) {
+        emptyState.classList.remove('hidden')
+        return
+      }
+
+      emptyState.classList.add('hidden')
+
+      jobs.forEach(job => {
+        const daysAgo = Math.floor((new Date() - new Date(job.created_at)) / (1000 * 60 * 60 * 24))
+        const timeAgo = daysAgo === 0 ? 'Today' : daysAgo === 1 ? 'Yesterday' : `${daysAgo} days ago`
+
+        const card = document.createElement('div')
+        card.className = 'bg-white dark:bg-[#014421] rounded-2xl shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 p-6 hover:shadow-md hover:border-[#009B77] transition-all cursor-pointer'
+        card.onclick = () => window.location.href = `job-detail.html?id=${job.job_id}`
+        card.innerHTML = `
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 bg-[#009B77]/10 rounded-xl flex items-center justify-center text-xl">🏢</div>
+            <span class="text-xs px-3 py-1 rounded-full font-medium ${
+              job.job_type === 'Full-time' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+              job.job_type === 'Part-time' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
+              job.job_type === 'Contract' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' :
+              'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'
+            }">${job.job_type}</span>
+          </div>
+          <h3 class="font-bold text-[#222222] dark:text-white mb-1 text-lg" style="font-family: Poppins, sans-serif;">${job.job_title}</h3>
+          <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm mb-3">${job.job_location}</p>
+          ${job.salary_range ? `<p class="text-[#009B77] font-medium text-sm mb-3">💰 ${job.salary_range}</p>` : ''}
+          <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm line-clamp-2 mb-4">${job.job_description}</p>
+          <div class="flex items-center justify-between pt-3 border-t border-[#E5E7EB] dark:border-[#009B77]/20">
+            <span class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">${timeAgo}</span>
+            <span class="text-[#009B77] text-sm font-medium hover:underline">View Details →</span>
+          </div>
+        `
+        container.appendChild(card)
+      })
+    }
+
+    // Search on enter key
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') searchJobs()
+    })
+
+    // Initial load
+    searchJobs()
+    // Theme toggle
+function toggleTheme() {
+  const isDark = document.documentElement.classList.toggle('dark')
+  localStorage.theme = isDark ? 'dark' : 'light'
+  document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
+  document.getElementById('themeIconMobile').textContent = isDark ? '☀️' : '🌙'
+}
+document.getElementById('themeToggle').addEventListener('click', toggleTheme)
+document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme)
+
+// Hamburger
+const hamburger = document.getElementById('hamburger')
+const mobileMenu = document.getElementById('mobileMenu')
+const menuOpen = document.getElementById('menuOpen')
+const menuClose = document.getElementById('menuClose')
+
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('hidden')
+  menuOpen.classList.toggle('hidden')
+  menuClose.classList.toggle('hidden')
+})
+  </script>
+
 </body>
 </html>

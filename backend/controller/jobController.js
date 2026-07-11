@@ -182,4 +182,44 @@ const deleteJob = async (req, res) => {
   }
 }
 
-module.exports = { getAllJobs, getJobById, createJob, updateJob, deleteJob }
+const getEmployerJobs = async (req, res) => {
+  try {
+    const { userId } = req.params
+    const result = await pool.query(
+      'SELECT * FROM jobs WHERE employer_id = $1 ORDER BY created_at DESC',
+      [userId]
+    )
+    res.status(200).json(result.rows)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
+const closeJob = async (req, res) => {
+  try {
+    const { id } = req.params
+    const job = await pool.query('SELECT * FROM jobs WHERE job_id = $1', [id])
+
+    if (job.rows.length === 0) {
+      return res.status(404).json({ message: 'Job not found' })
+    }
+
+    if (job.rows[0].employer_id !== req.user.user_id) {
+      return res.status(403).json({ message: 'Unauthorized' })
+    }
+
+    const newStatus = !job.rows[0].is_active
+    const result = await pool.query(
+      'UPDATE jobs SET is_active = $1 WHERE job_id = $2 RETURNING *',
+      [newStatus, id]
+    )
+
+    res.status(200).json(result.rows[0])
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
+module.exports = { getAllJobs, getJobById, createJob, updateJob, deleteJob, closeJob, getEmployerJobs }

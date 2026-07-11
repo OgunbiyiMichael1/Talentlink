@@ -3,20 +3,421 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TalentLink — Where talent owners and talent finders meet. Find your next job or hire the best candidates.">
-  <meta name="keywords" content="jobs, hiring, recruitment, talent, careers, Nigeria, tech jobs">
-  <meta name="author" content="TalentLink">
-  
-  <!-- Open Graph for social sharing -->
-  <meta property="og:title" content="TalentLink">
-  <meta property="og:description" content="Where talent owners and talent finders meet">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://talentlink.com">
-
-  <title>TalentLink — Where Talent Owners and Talent Finders Meet</title>
+  <title>My Profile — TalentLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/output.css">
+  <script>
+    if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    }
+  </script>
 </head>
-<body>
-  
+<body class="bg-[#FCFCFC] dark:bg-[#022F1F] min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-[#FCFCFC] dark:bg-[#022F1F] shadow-sm sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#014421]">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="dashboard.html" class="flex items-center gap-2">
+        <img src="./assets/images/logo.png" alt="TalentLink Logo" class="h-8 w-auto">
+        <span class="text-xl font-bold text-[#222222] dark:text-white" style="font-family: Poppins, sans-serif;">
+          Talent<span class="text-[#009B77]">Link</span>
+        </span>
+      </a>
+      <div class="hidden md:flex items-center gap-4">
+        <a href="dashboard.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors text-sm">Dashboard</a>
+        <a href="jobs.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors text-sm">Jobs</a>
+        <button onclick="logout()" class="text-red-500 hover:text-red-700 font-medium transition-colors text-sm">Logout</button>
+        <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+      <div class="flex md:hidden items-center gap-2">
+        <button id="themeToggleMobile" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421]">
+          <span id="themeIconMobile">🌙</span>
+        </button>
+        <button id="hamburger" class="p-2 text-[#222222] dark:text-white">
+          <svg id="menuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="menuClose" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="md:hidden bg-[#FCFCFC] dark:bg-[#022F1F] border-t border-[#E5E7EB] dark:border-[#014421] px-4 py-4 flex flex-col gap-4">
+      <a href="dashboard.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium">Dashboard</a>
+      <a href="jobs.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium">Jobs</a>
+      <button onclick="logout()" class="text-red-500 text-left font-medium">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="max-w-4xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
+
+    <!-- Left: Profile Card -->
+    <div class="md:col-span-1">
+      <div class="bg-white dark:bg-[#014421] rounded-2xl border border-[#E5E7EB] dark:border-[#009B77]/20 overflow-hidden sticky top-24">
+        
+        <!-- Cover -->
+        <div class="bg-linear-to-br from-[#014421] to-[#009B77] h-24"></div>
+        
+        <!-- Avatar -->
+        <div class="px-6 pb-6">
+          <div class="relative -mt-10 mb-4">
+            <div id="avatarDisplay" class="w-20 h-20 bg-[#009B77] rounded-full border-4 border-white dark:border-[#014421] flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
+              T
+            </div>
+            <label for="avatarInput" class="absolute bottom-0 right-0 w-7 h-7 bg-[#009B77] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#007A5E] transition-colors">
+              <span class="text-white text-xs">✏️</span>
+            </label>
+            <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="uploadAvatar(this)">
+          </div>
+          
+          <h2 id="profileName" class="text-xl font-bold text-[#222222] dark:text-white" style="font-family: Poppins, sans-serif;">Loading...</h2>
+          <p id="profileHeadline" class="text-[#4B5563] dark:text-[#D9D9D9] text-sm mt-1">TalentLink Member</p>
+          <p id="profileLocation" class="text-[#4B5563] dark:text-[#D9D9D9] text-xs mt-1">📍</p>
+
+          <hr class="border-[#E5E7EB] dark:border-[#009B77]/20 my-4">
+
+          <!-- Resume -->
+          <div>
+            <p class="text-sm font-medium text-[#222222] dark:text-white mb-2">Resume</p>
+            <div id="resumeStatus" class="text-[#4B5563] dark:text-[#D9D9D9] text-xs mb-3">No resume uploaded</div>
+            <label for="resumeInput" class="block w-full text-center border-2 border-dashed border-[#009B77] text-[#009B77] py-2 rounded-lg text-sm cursor-pointer hover:bg-[#009B77]/5 transition-colors">
+              📄 Upload Resume
+            </label>
+            <input type="file" id="resumeInput" accept=".pdf" class="hidden" onchange="uploadResume(this)">
+          </div>
+
+          <!-- Social Links -->
+          <hr class="border-[#E5E7EB] dark:border-[#009B77]/20 my-4">
+          <div id="socialLinks" class="flex flex-col gap-2"></div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Edit Form -->
+    <div class="md:col-span-2 flex flex-col gap-6">
+
+      <!-- Success/Error Messages -->
+      <div id="successMsg" class="hidden bg-green-50 dark:bg-green-900/20 border border-green-200 text-green-600 px-4 py-3 rounded-lg text-sm"></div>
+      <div id="errorMsg" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm"></div>
+
+      <!-- Basic Info -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-6 border border-[#E5E7EB] dark:border-[#009B77]/20">
+        <h3 class="font-bold text-[#222222] dark:text-white mb-5" style="font-family: Poppins, sans-serif;">Basic Information</h3>
+        <div class="flex flex-col gap-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">First Name</label>
+              <input type="text" id="firstName"
+                class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">Last Name</label>
+              <input type="text" id="lastName"
+                class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">Headline</label>
+            <input type="text" id="headline" placeholder="e.g. Junior Full-Stack Developer"
+              class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">Location</label>
+            <input type="text" id="location" placeholder="e.g. Lagos, Nigeria"
+              class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+          </div>
+          <button onclick="updateBasicInfo()" id="basicInfoBtn"
+            class="bg-[#009B77] hover:bg-[#007A5E] text-white py-3 rounded-lg font-semibold transition-colors">
+            Save Basic Info
+          </button>
+        </div>
+      </div>
+
+      <!-- Professional Info -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-6 border border-[#E5E7EB] dark:border-[#009B77]/20">
+        <h3 class="font-bold text-[#222222] dark:text-white mb-5" style="font-family: Poppins, sans-serif;">Professional Info</h3>
+        <div class="flex flex-col gap-4">
+          <div>
+            <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">Bio</label>
+            <textarea id="bio" rows="4" placeholder="Tell employers about yourself..."
+              class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors resize-none"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">Skills</label>
+            <input type="text" id="skills" placeholder="e.g. Node.js, PostgreSQL, JavaScript"
+              class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">GitHub URL</label>
+            <input type="text" id="githubUrl" placeholder="https://github.com/yourusername"
+              class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">LinkedIn URL</label>
+            <input type="text" id="linkedinUrl" placeholder="https://linkedin.com/in/yourusername"
+              class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+          </div>
+          <button onclick="updateProfessionalInfo()" id="professionalInfoBtn"
+            class="bg-[#009B77] hover:bg-[#007A5E] text-white py-3 rounded-lg font-semibold transition-colors">
+            Save Professional Info
+          </button>
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-6 border border-red-200 dark:border-red-900/30">
+        <h3 class="font-bold text-red-500 mb-2" style="font-family: Poppins, sans-serif;">Danger Zone</h3>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm mb-4">Permanently delete your account and all your data.</p>
+        <button onclick="deleteAccount()"
+          class="border-2 border-red-400 text-red-500 px-6 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 font-medium transition-colors text-sm">
+          Delete Account
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Dark mode
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark')
+      localStorage.theme = isDark ? 'dark' : 'light'
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
+      document.getElementById('themeIconMobile').textContent = isDark ? '☀️' : '🌙'
+    }
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme)
+    document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme)
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden')
+      document.getElementById('menuOpen').classList.toggle('hidden')
+      document.getElementById('menuClose').classList.toggle('hidden')
+    })
+
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (!user) window.location.href = 'login.html'
+
+    async function logout() {
+      await fetch('http://127.0.0.1:5000/api/auth/logout', { method: 'POST', credentials: 'include' })
+      localStorage.removeItem('user')
+      window.location.href = 'login.html'
+    }
+
+    function showSuccess(msg) {
+      const el = document.getElementById('successMsg')
+      el.textContent = msg
+      el.classList.remove('hidden')
+      setTimeout(() => el.classList.add('hidden'), 3000)
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('errorMsg')
+      el.textContent = msg
+      el.classList.remove('hidden')
+      setTimeout(() => el.classList.add('hidden'), 3000)
+    }
+
+    // Load user data
+    async function loadProfile() {
+      try {
+        const [userRes, candidateRes] = await Promise.all([
+          fetch(`http://127.0.0.1:5000/api/users/${user.user_id}`, { credentials: 'include' }),
+          fetch(`http://127.0.0.1:5000/api/candidates/${user.user_id}`, { credentials: 'include' })
+        ])
+
+        const userData = await userRes.json()
+        const candidateData = await candidateRes.json()
+
+        // Fill basic info
+        document.getElementById('firstName').value = userData.first_name || ''
+        document.getElementById('lastName').value = userData.last_name || ''
+        document.getElementById('headline').value = userData.headline || ''
+        document.getElementById('location').value = userData.location || ''
+
+        // Fill professional info
+        document.getElementById('bio').value = candidateData.bio || ''
+        document.getElementById('skills').value = candidateData.skills || ''
+        document.getElementById('githubUrl').value = candidateData.github_url || ''
+        document.getElementById('linkedinUrl').value = candidateData.linkedin_url || ''
+
+        // Update profile card
+        document.getElementById('profileName').textContent = `${userData.first_name} ${userData.last_name}`
+        document.getElementById('profileHeadline').textContent = userData.headline || 'TalentLink Member'
+        document.getElementById('profileLocation').textContent = userData.location ? `📍 ${userData.location}` : ''
+
+        // Avatar
+        if (userData.profile_picture_url) {
+          document.getElementById('avatarDisplay').innerHTML = `<img src="${userData.profile_picture_url}" class="w-full h-full object-cover">`
+        } else {
+          document.getElementById('avatarDisplay').textContent = userData.first_name[0] + userData.last_name[0]
+        }
+
+        // Resume
+        if (candidateData.resume_url) {
+          document.getElementById('resumeStatus').innerHTML = `<a href="${candidateData.resume_url}" target="_blank" class="text-[#009B77] hover:underline">📄 View Resume</a>`
+        }
+
+        // Social links
+        const socialLinks = document.getElementById('socialLinks')
+        socialLinks.innerHTML = ''
+        if (candidateData.github_url) {
+          socialLinks.innerHTML += `<a href="${candidateData.github_url}" target="_blank" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">🐙 GitHub</a>`
+        }
+        if (candidateData.linkedin_url) {
+          socialLinks.innerHTML += `<a href="${candidateData.linkedin_url}" target="_blank" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">💼 LinkedIn</a>`
+        }
+
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    // Update basic info
+    async function updateBasicInfo() {
+      const btn = document.getElementById('basicInfoBtn')
+      btn.textContent = '⏳ Saving...'
+      btn.disabled = true
+
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/users/${user.user_id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            first_name: document.getElementById('firstName').value,
+            last_name: document.getElementById('lastName').value,
+            headline: document.getElementById('headline').value,
+            location: document.getElementById('location').value
+          })
+        })
+
+        if (response.ok) {
+          showSuccess('Basic info updated successfully')
+          btn.textContent = '✅ Saved!'
+          setTimeout(() => { btn.textContent = 'Save Basic Info'; btn.disabled = false }, 2000)
+          loadProfile()
+        } else {
+          showError('Failed to update')
+          btn.textContent = 'Save Basic Info'
+          btn.disabled = false
+        }
+      } catch (error) {
+        showError('Something went wrong')
+        btn.textContent = 'Save Basic Info'
+        btn.disabled = false
+      }
+    }
+
+    // Update professional info
+    async function updateProfessionalInfo() {
+      const btn = document.getElementById('professionalInfoBtn')
+      btn.textContent = '⏳ Saving...'
+      btn.disabled = true
+
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/candidates/${user.user_id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            bio: document.getElementById('bio').value,
+            skills: document.getElementById('skills').value,
+            github_url: document.getElementById('githubUrl').value,
+            linkedin_url: document.getElementById('linkedinUrl').value
+          })
+        })
+
+        if (response.ok) {
+          showSuccess('Professional info updated successfully')
+          btn.textContent = '✅ Saved!'
+          setTimeout(() => { btn.textContent = 'Save Professional Info'; btn.disabled = false }, 2000)
+          loadProfile()
+        } else {
+          showError('Failed to update')
+          btn.textContent = 'Save Professional Info'
+          btn.disabled = false
+        }
+      } catch (error) {
+        showError('Something went wrong')
+        btn.textContent = 'Save Professional Info'
+        btn.disabled = false
+      }
+    }
+
+    // Upload avatar
+    async function uploadAvatar(input) {
+      const file = input.files[0]
+      if (!file) return
+
+      const formData = new FormData()
+      formData.append('image', file)
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/upload/profile-picture', {
+          method: 'POST',
+          credentials: 'include',
+          body: formData
+        })
+
+        if (response.ok) {
+          showSuccess('Profile picture updated!')
+          loadProfile()
+        }
+      } catch (error) {
+        showError('Failed to upload image')
+      }
+    }
+
+    // Upload resume
+    async function uploadResume(input) {
+      const file = input.files[0]
+      if (!file) return
+
+      const formData = new FormData()
+      formData.append('resume', file)
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/upload/resume', {
+          method: 'POST',
+          credentials: 'include',
+          body: formData
+        })
+
+        if (response.ok) {
+          showSuccess('Resume uploaded successfully!')
+          loadProfile()
+        }
+      } catch (error) {
+        showError('Failed to upload resume')
+      }
+    }
+
+    // Delete account
+    async function deleteAccount() {
+      if (!confirm('Are you sure? This will permanently delete your account and all your data.')) return
+      if (!confirm('This cannot be undone. Are you absolutely sure?')) return
+
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/users/${user.user_id}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+
+        if (response.ok) {
+          localStorage.removeItem('user')
+          window.location.href = 'index.html'
+        }
+      } catch (error) {
+        showError('Failed to delete account')
+      }
+    }
+
+    loadProfile()
+  </script>
+
 </body>
 </html>

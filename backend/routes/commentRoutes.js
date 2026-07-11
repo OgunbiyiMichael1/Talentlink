@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const { protect } = require('../middleware/authMiddleware')
-const { createComment, updateComment, deleteComment } = require('../controller/commentController')
+const { createComment, getCommentsByPost, updateComment, deleteComment } = require('../controller/commentController')
+
+router.get('/post/:postId', protect, getCommentsByPost)
 
 // POST /api/comments → protected route
 router.post('/', protect, createComment)

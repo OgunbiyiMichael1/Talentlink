@@ -14,9 +14,656 @@
   <meta property="og:url" content="https://talentlink.com">
 
   <title>TalentLink — Where Talent Owners and Talent Finders Meet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/output.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+  if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark')
+  }
+</script>
 </head>
 <body>
+  <nav class="bg-[#FCFCFC] dark:bg-[#022F1F] shadow-sm sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#014421]">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="index.html" class="flex items-center gap-2">
+      <img src="./assets/images/logo.png" alt="TalentLink Logo" class="h-8 w-auto">
+      <span class="text-xl font-bold text-[#222222] dark:text-white" style="font-family: Poppins, sans-serif;">
+        Talent<span class="text-[#009B77]">Link</span>
+      </span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-4">
+      <a href="jobs.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors">Browse Jobs</a>
+      <a href="login.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors">Login</a>
+      <a href="register.html" class="bg-[#009B77] text-white px-5 py-2 rounded-lg hover:bg-[#007A5E] font-medium transition-colors">Get Started</a>
+      <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors">
+        <span id="themeIcon">🌙</span>
+      </button>
+    </div>
+
+    <!-- Mobile: theme toggle + hamburger -->
+    <div class="flex md:hidden items-center gap-2">
+      <button id="themeToggleMobile" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white">
+        <span id="themeIconMobile">🌙</span>
+      </button>
+      <button id="hamburger" class="p-2 rounded-lg text-[#222222] dark:text-white">
+        <svg id="menuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="menuClose" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Mobile Sidebar -->
+  <div id="mobileMenu" class="md:hidden bg-[#FCFCFC] dark:bg-[#022F1F] border-t border-[#E5E7EB] dark:border-[#014421] px-4 py-4 flex flex-col gap-4">
+    <a href="jobs.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors">Browse Jobs</a>
+    <a href="login.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors">Login</a>
+    <a href="register.html" class="bg-[#009B77] text-white px-5 py-2 rounded-lg hover:bg-[#007A5E] font-medium transition-colors text-center">Get Started</a>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="bg-linear-to-br from-[#014421] to-[#009B77] dark:from-[#022F1F] dark:to-[#014421] min-h-screen flex items-center">
+  <div class="max-w-6xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-12 items-center">
+    
+    <!-- Left: Text -->
+    <div class="text-white">
+      <p class="text-[#D9D9D9] font-medium mb-3 tracking-widest uppercase text-sm">Welcome to TalentLink</p>
+      <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6" style="font-family: Poppins, sans-serif;">
+        Where Talent Owners & Talent Finders <span class="text-[#D9D9D9]">Meet</span>
+      </h1>
+      <p class="text-[#D9D9D9] text-lg mb-8 leading-relaxed">
+        TalentLink connects the best candidates with the best companies. Find your dream job or hire exceptional talent — all in one platform.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="register.html" class="bg-white text-[#009B77] px-8 py-3 rounded-lg font-semibold hover:bg-[#D9D9D9] transition-colors">
+          Find a Job
+        </a>
+        <a href="register.html" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#009B77] transition-colors">
+          Hire Talent
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="flex gap-8 mt-12">
+        <div>
+          <p class="text-3xl font-bold text-white" style="font-family: Poppins, sans-serif;">500+</p>
+          <p class="text-[#D9D9D9] text-sm">Jobs Posted</p>
+        </div>
+        <div>
+          <p class="text-3xl font-bold text-white" style="font-family: Poppins, sans-serif;">1000+</p>
+          <p class="text-[#D9D9D9] text-sm">Candidates</p>
+        </div>
+        <div>
+          <p class="text-3xl font-bold text-white" style="font-family: Poppins, sans-serif;">200+</p>
+          <p class="text-[#D9D9D9] text-sm">Companies</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: 3D Animation placeholder -->
+    <div class="hidden md:flex items-center justify-center">
+      <div id="hero-animation" class="w-full h-125 rounded-2xl flex items-center justify-center">
+       
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="bg-[#FCFCFC] dark:bg-[#022F1F] py-20">
+  <div class="max-w-6xl mx-auto px-4">
+
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <p class="text-[#009B77] font-medium tracking-widest uppercase text-sm mb-3">Why TalentLink</p>
+      <h2 class="text-3xl md:text-5xl font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">
+        Everything You Need in One Place
+      </h2>
+      <p class="text-[#4B5563] dark:text-[#D9D9D9] text-lg max-w-2xl mx-auto">
+        Whether you're looking for your next opportunity or searching for the perfect candidate, TalentLink has the tools to make it happen.
+      </p>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Card 1 -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-[#009B77]/10 rounded-xl flex items-center justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#009B77]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-3" style="font-family: Poppins, sans-serif;">Browse Jobs</h3>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] leading-relaxed">Search thousands of job listings filtered by location, type, and salary. Find the perfect role that matches your skills.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-[#009B77]/10 rounded-xl flex items-center justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#009B77]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-3" style="font-family: Poppins, sans-serif;">Build Your Network</h3>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] leading-relaxed">Connect with employers, candidates and industry professionals. Grow your professional network and open new doors.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-[#009B77]/10 rounded-xl flex items-center justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#009B77]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-3" style="font-family: Poppins, sans-serif;">Smart Applications</h3>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] leading-relaxed">Apply with your TalentLink profile and resume. Track every application status in real time from your dashboard.</p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-[#009B77]/10 rounded-xl flex items-center justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#009B77]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-3" style="font-family: Poppins, sans-serif;">Post Jobs Easily</h3>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] leading-relaxed">Employers can post job openings in minutes and manage all applications from one clean dashboard.</p>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-[#009B77]/10 rounded-xl flex items-center justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#009B77]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-3" style="font-family: Poppins, sans-serif;">Real Time Notifications</h3>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] leading-relaxed">Get instant email alerts when your application status changes or when someone connects with you.</p>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-[#009B77]/10 rounded-xl flex items-center justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#009B77]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-3" style="font-family: Poppins, sans-serif;">Social Feed</h3>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] leading-relaxed">Share updates, achievements and insights with your network. Engage with posts from industry professionals.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="bg-white dark:bg-[#014421] py-20">
+  <div class="max-w-6xl mx-auto px-4">
+
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <p class="text-[#009B77] font-medium tracking-widest uppercase text-sm mb-3">Simple Process</p>
+      <h2 class="text-3xl md:text-5xl font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">
+        How TalentLink Works
+      </h2>
+      <p class="text-[#4B5563] dark:text-[#D9D9D9] text-lg max-w-2xl mx-auto">
+        Get started in minutes whether you're a candidate or an employer.
+      </p>
+    </div>
+
+    <!-- Two Columns -->
+    <div class="grid md:grid-cols-2 gap-16">
+
+      <!-- For Candidates -->
+      <div>
+        <h3 class="text-2xl font-bold text-[#009B77] mb-8" style="font-family: Poppins, sans-serif;">For Candidates</h3>
+        <div class="flex flex-col gap-8">
+
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 bg-[#009B77] text-white rounded-full flex items-center justify-center font-bold shrink-0">1</div>
+            <div>
+              <h4 class="font-bold text-[#222222] dark:text-white mb-1" style="font-family: Poppins, sans-serif;">Create Your Profile</h4>
+              <p class="text-[#4B5563] dark:text-[#D9D9D9]">Sign up and build your professional profile with your skills, experience, and upload your resume.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 bg-[#009B77] text-white rounded-full flex items-center justify-center font-bold shrink-0">2</div>
+            <div>
+              <h4 class="font-bold text-[#222222] dark:text-white mb-1" style="font-family: Poppins, sans-serif;">Browse & Apply</h4>
+              <p class="text-[#4B5563] dark:text-[#D9D9D9]">Search jobs by title, location or type. Apply with one click using your TalentLink profile.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 bg-[#009B77] text-white rounded-full flex items-center justify-center font-bold shrink-0">3</div>
+            <div>
+              <h4 class="font-bold text-[#222222] dark:text-white mb-1" style="font-family: Poppins, sans-serif;">Track & Connect</h4>
+              <p class="text-[#4B5563] dark:text-[#D9D9D9]">Track your application status in real time and connect with employers directly on the platform.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- For Employers -->
+      <div>
+        <h3 class="text-2xl font-bold text-[#014421] dark:text-[#D9D9D9] mb-8" style="font-family: Poppins, sans-serif;">For Employers</h3>
+        <div class="flex flex-col gap-8">
+
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 bg-[#014421] text-white rounded-full flex items-center justify-center font-bold shrink-0">1</div>
+            <div>
+              <h4 class="font-bold text-[#222222] dark:text-white mb-1" style="font-family: Poppins, sans-serif;">Create Company Profile</h4>
+              <p class="text-[#4B5563] dark:text-[#D9D9D9]">Register your company, add your logo, bio and industry so candidates can learn about you.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 bg-[#014421] text-white rounded-full flex items-center justify-center font-bold shrink-0">2</div>
+            <div>
+              <h4 class="font-bold text-[#222222] dark:text-white mb-1" style="font-family: Poppins, sans-serif;">Post Job Openings</h4>
+              <p class="text-[#4B5563] dark:text-[#D9D9D9]">Create detailed job listings with requirements, salary range and job type in minutes.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 bg-[#014421] text-white rounded-full flex items-center justify-center font-bold shrink-0">3</div>
+            <div>
+              <h4 class="font-bold text-[#222222] dark:text-white mb-1" style="font-family: Poppins, sans-serif;">Review & Hire</h4>
+              <p class="text-[#4B5563] dark:text-[#D9D9D9]">Review applications, download resumes, update candidate status and hire the best talent.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="bg-[#FCFCFC] dark:bg-[#022F1F] py-20">
+  <div class="max-w-6xl mx-auto px-4">
+
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <p class="text-[#009B77] font-medium tracking-widest uppercase text-sm mb-3">Success Stories</p>
+      <h2 class="text-3xl md:text-5xl font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">
+        What Our Users Say
+      </h2>
+    </div>
+
+    <!-- Testimonials Grid -->
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- Testimonial 1 -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20">
+        <div class="flex gap-1 mb-4">
+          <span class="text-[#F59E0B]">★★★★★</span>
+        </div>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] mb-6 leading-relaxed italic">
+          "I landed my first tech job within 3 weeks of joining TalentLink. The application tracking feature made the whole process stress-free."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-[#009B77] rounded-full flex items-center justify-center text-white font-bold">A</div>
+          <div>
+            <p class="font-bold text-[#222222] dark:text-white text-sm">Adaeze Okafor</p>
+            <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">Junior Frontend Developer</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20">
+        <div class="flex gap-1 mb-4">
+          <span class="text-[#F59E0B]">★★★★★</span>
+        </div>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] mb-6 leading-relaxed italic">
+          "We hired three amazing developers through TalentLink in under a month. The quality of candidates on this platform is exceptional."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-[#014421] rounded-full flex items-center justify-center text-white font-bold">K</div>
+          <div>
+            <p class="font-bold text-[#222222] dark:text-white text-sm">Kunle Adeyemi</p>
+            <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">CTO, TechForce Nigeria</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 shadow-sm border border-[#E5E7EB] dark:border-[#009B77]/20">
+        <div class="flex gap-1 mb-4">
+          <span class="text-[#F59E0B]">★★★★★</span>
+        </div>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] mb-6 leading-relaxed italic">
+          "The social feed and networking features are what set TalentLink apart. I connected with my current employer through a post I made."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-[#009B77] rounded-full flex items-center justify-center text-white font-bold">T</div>
+          <div>
+            <p class="font-bold text-[#222222] dark:text-white text-sm">Tomiwa Bello</p>
+            <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">Full Stack Developer</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-linear-to-br from-[#014421] to-[#009B77] py-20">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h2 class="text-3xl md:text-5xl font-bold text-white mb-6" style="font-family: Poppins, sans-serif;">
+      Ready to Find Your Next Opportunity?
+    </h2>
+    <p class="text-[#D9D9D9] text-lg mb-8">
+      Join thousands of candidates and employers already using TalentLink.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="register.html" class="bg-white text-[#009B77] px-8 py-3 rounded-lg font-semibold hover:bg-[#D9D9D9] transition-colors">
+        Get Started Free
+      </a>
+      <a href="jobs.html" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#009B77] transition-colors">
+        Browse Jobs
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-linear-to-b from-[#014421] to-[#022F1F] text-white pt-16 pb-8">
+  <div class="max-w-6xl mx-auto px-4">
+
+    <!-- Footer Top Grid -->
+    <div class="grid md:grid-cols-4 gap-12 mb-12 text-center md:text-left">
+
+      <!-- Brand -->
+      <div class="md:col-span-1 flex flex-col items-center md:items-start">
+        <a href="index.html" class="flex items-center gap-2 mb-4">
+          <img src="./assets/images/logo.png" alt="TalentLink" class="h-8 w-auto">
+          <span class="text-xl font-bold" style="font-family: Poppins, sans-serif;">
+            Talent<span class="text-[#009B77]">Link</span>
+          </span>
+        </a>
+        <p class="text-[#D9D9D9] text-sm leading-relaxed mb-6">
+          Where talent owners and talent finders meet. Building careers and companies, one connection at a time.
+        </p>
+        <!-- Social Icons -->
+        <div class="flex gap-3 justify-center md:justify-start">
+          <a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[#009B77] transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557a9.83 9.83 0 01-2.828.775 4.932 4.932 0 002.165-2.724 9.864 9.864 0 01-3.127 1.195 4.916 4.916 0 00-8.384 4.482A13.944 13.944 0 011.64 3.161a4.916 4.916 0 001.523 6.574 4.903 4.903 0 01-2.229-.616v.061a4.917 4.917 0 003.946 4.827 4.936 4.936 0 01-2.224.084 4.918 4.918 0 004.6 3.417A9.867 9.867 0 010 19.54a13.94 13.94 0 007.548 2.212c9.057 0 14.01-7.503 14.01-14.01 0-.213-.005-.426-.015-.637A10.012 10.012 0 0024 4.557z"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[#009B77] transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[#009B77] transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- For Candidates -->
+      <div class="flex flex-col items-center md:items-start">
+        <h4 class="font-bold text-white mb-6" style="font-family: Poppins, sans-serif;">For Candidates</h4>
+        <ul class="flex flex-col gap-3">
+          <li><a href="jobs.html" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">Browse Jobs</a></li>
+          <li><a href="register.html" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">Create Profile</a></li>
+          <li><a href="applications.html" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">My Applications</a></li>
+          <li><a href="connections.html" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">My Network</a></li>
+          <li><a href="dashboard.html" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">Dashboard</a></li>
+        </ul>
+      </div>
+
+      <!-- For Employers -->
+      <div class="flex flex-col items-center md:items-start">
+        <h4 class="font-bold text-white mb-6" style="font-family: Poppins, sans-serif;">For Employers</h4>
+        <ul class="flex flex-col gap-3">
+          <li><a href="register.html" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">Post a Job</a></li>
+          <li><a href="employer-dashboard.html" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">Employer Dashboard</a></li>
+          <li><a href="register.html" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">Company Profile</a></li>
+          <li><a href="connections.html" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">Find Talent</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div class="flex flex-col items-center md:items-start">
+        <h4 class="font-bold text-white mb-6" style="font-family: Poppins, sans-serif;">Company</h4>
+        <ul class="flex flex-col gap-3">
+          <li><a href="#" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">About Us</a></li>
+          <li><a href="#" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">Terms of Service</a></li>
+          <li><a href="#" class="text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">Contact Us</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 text-center md:text-left">
+      <p class="text-[#D9D9D9] text-sm">
+        © 2026 TalentLink. All rights reserved.
+      </p>
+      <p class="text-[#D9D9D9] text-sm">
+        Built with ❤️ for African talent
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+
+<script>
+  // Dark mode
+  if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark')
+  }
+
+  function toggleTheme() {
+    const isDark = document.documentElement.classList.toggle('dark')
+    localStorage.theme = isDark ? 'dark' : 'light'
+    document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
+    document.getElementById('themeIconMobile').textContent = isDark ? '☀️' : '🌙'
+  }
+
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme)
+  document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme)
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger')
+  const mobileMenu = document.getElementById('mobileMenu')
+  const menuOpen = document.getElementById('menuOpen')
+  const menuClose = document.getElementById('menuClose')
+
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden')
+    menuOpen.classList.toggle('hidden')
+    menuClose.classList.toggle('hidden')
+  })
+
+  // Three.js Enhanced Green Particle Animation
+  const container = document.getElementById('hero-animation')
   
+  // Ensure container has dimensions
+  setTimeout(() => {
+    const width = Math.max(container.clientWidth, 400)
+    const height = Math.max(container.clientHeight, 400)
+
+    // Scene setup
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    renderer.setSize(width, height)
+    renderer.setClearColor(0x000000, 0)
+    renderer.shadowMap.enabled = true
+    container.appendChild(renderer.domElement)
+
+    camera.position.z = 4
+
+    // Enhanced node positions - more particles, spread out
+    const nodePositions = [
+      [0, 0, 0],
+      [2, 1, -1],
+      [-2, 1, -1],
+      [1, -1.5, 0.5],
+      [-1, -1.5, 0.5],
+      [0, 2, 0.5],
+      [2.5, -0.5, -0.5],
+      [-2.5, -0.5, -0.5],
+      [1.5, 0.5, 1.5],
+      [-1.5, 0.5, 1.5],
+      [0, -2, 0],
+      [2, 1.5, -1],
+      [-2, 1.5, -1]
+    ]
+
+    const nodes = []
+    const brightGreen = new THREE.Color(0x00FF00)
+    const limeGreen = new THREE.Color(0x00DD00)
+    const emeralGreen = new THREE.Color(0x00BB00)
+
+    // Create larger nodes with green gradients
+    nodePositions.forEach((pos, i) => {
+      const colors = [brightGreen, limeGreen, emeralGreen]
+      const color = colors[i % 3]
+      
+      const geometry = new THREE.SphereGeometry(0.4, 32, 32)
+      const material = new THREE.MeshPhongMaterial({
+        color: color,
+        emissive: color,
+        emissiveIntensity: 0.6,
+        shininess: 100,
+        wireframe: false
+      })
+      const sphere = new THREE.Mesh(geometry, material)
+      sphere.position.set(...pos)
+      sphere.castShadow = true
+      sphere.receiveShadow = true
+      scene.add(sphere)
+      nodes.push({
+        mesh: sphere,
+        originalPos: new THREE.Vector3(...pos),
+        oscillationSpeed: 0.3 + Math.random() * 0.4,
+        oscillationAmount: 0.2 + Math.random() * 0.25,
+        phaseX: Math.random() * Math.PI * 2,
+        phaseY: Math.random() * Math.PI * 2,
+        phaseZ: Math.random() * Math.PI * 2,
+        xFactor: 0.8 + Math.random() * 0.4,
+        yFactor: 0.8 + Math.random() * 0.4,
+        zFactor: 0.8 + Math.random() * 0.4
+      })
+    })
+
+    // Create connecting lines with glow
+    const connections = [
+      [0, 1], [0, 2], [0, 3], [0, 4], [0, 5],
+      [1, 5], [2, 5], [1, 6], [2, 7],
+      [3, 6], [4, 7], [5, 0], [6, 7], [8, 9],
+      [1, 8], [2, 9], [3, 10], [4, 10], [11, 0], [12, 0]
+    ]
+
+    const lineGroup = new THREE.Group()
+    connections.forEach(([a, b]) => {
+      const points = [
+        nodes[a].mesh.position.clone(),
+        nodes[b].mesh.position.clone()
+      ]
+      const geometry = new THREE.BufferGeometry().setFromPoints(points)
+      const material = new THREE.LineBasicMaterial({
+        color: 0x00FF00,
+        opacity: 0.5,
+        transparent: true,
+        linewidth: 2
+      })
+      lineGroup.add(new THREE.Line(geometry, material))
+    })
+    scene.add(lineGroup)
+
+    // Enhanced lighting with green glow
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+    scene.add(ambientLight)
+
+    const pointLight1 = new THREE.PointLight(0x00FF00, 2, 20)
+    pointLight1.position.set(3, 3, 3)
+    pointLight1.castShadow = true
+    scene.add(pointLight1)
+
+    const pointLight2 = new THREE.PointLight(0x00DD00, 1.5, 15)
+    pointLight2.position.set(-3, -2, 2)
+    scene.add(pointLight2)
+
+    // Animation with enhanced movement
+    let time = 0
+    function animate() {
+      requestAnimationFrame(animate)
+      time += 0.003
+
+      // Rotate whole scene with more control
+      scene.rotation.y = time * 0.2
+      scene.rotation.x = Math.sin(time * 0.15) * 0.15
+
+      // Enhanced node animation with more dynamic movement
+      nodes.forEach((nodeData, i) => {
+        const { mesh, originalPos, oscillationSpeed, oscillationAmount, phaseX, phaseY, phaseZ, xFactor, yFactor, zFactor } = nodeData
+
+        // Complex multi-directional motion
+        mesh.position.x = originalPos.x + Math.sin(time * oscillationSpeed + phaseX + i * 0.6) * oscillationAmount * xFactor
+        mesh.position.y = originalPos.y + Math.cos(time * oscillationSpeed * 0.85 + phaseY - i * 0.4) * oscillationAmount * yFactor
+        mesh.position.z = originalPos.z + Math.sin(time * oscillationSpeed * 0.7 + phaseZ + i * 0.9) * oscillationAmount * zFactor
+
+        // Add diagonal drift in all possible directions
+        mesh.position.x += Math.sin(time * 0.6 + phaseY) * 0.12
+        mesh.position.y += Math.sin(time * 0.5 + phaseZ) * 0.12
+        mesh.position.z += Math.cos(time * 0.4 + phaseX) * 0.1
+
+        // Gentle rotation
+        mesh.rotation.x += 0.001
+        mesh.rotation.y += 0.002
+      })
+
+      // Update connecting lines
+      let lineIndex = 0
+      connections.forEach(([a, b]) => {
+        const line = lineGroup.children[lineIndex]
+        if (line) {
+          const positions = line.geometry.attributes.position.array
+          positions[0] = nodes[a].mesh.position.x
+          positions[1] = nodes[a].mesh.position.y
+          positions[2] = nodes[a].mesh.position.z
+          positions[3] = nodes[b].mesh.position.x
+          positions[4] = nodes[b].mesh.position.y
+          positions[5] = nodes[b].mesh.position.z
+          line.geometry.attributes.position.needsUpdate = true
+        }
+        lineIndex++
+      })
+
+      renderer.render(scene, camera)
+    }
+
+    animate()
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      const w = Math.max(container.clientWidth, 400)
+      const h = Math.max(container.clientHeight, 400)
+      camera.aspect = w / h
+      camera.updateProjectionMatrix()
+      renderer.setSize(w, h)
+    })
+  }, 100)
+</script>
 </body>
 </html>

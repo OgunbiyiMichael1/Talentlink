@@ -49,4 +49,51 @@ const sendStatusUpdate = async (candidateEmail, jobTitle, status) => {
   })
 }
 
-module.exports = { sendApplicationConfirmation, sendNewApplicationAlert, sendStatusUpdate }
+const sendWelcomeEmail = async (email, first_name, role) => {
+  await resend.emails.send({
+    from: 'TalentLink <onboarding@resend.dev>',
+    to: email,
+    subject: 'Welcome to TalentLink! 🎉',
+    html: `
+      <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: linear-gradient(135deg, #014421, #009B77); padding: 40px; text-align: center; border-radius: 12px 12px 0 0;">
+          <h1 style="color: white; margin: 0; font-size: 28px;">Welcome to TalentLink! 🎉</h1>
+        </div>
+        <div style="background: #ffffff; padding: 40px; border-radius: 0 0 12px 12px; border: 1px solid #E5E7EB;">
+          <p style="color: #222222; font-size: 18px;">Hi ${first_name},</p>
+          <p style="color: #4B5563; line-height: 1.6;">
+            Welcome to TalentLink — where talent owners and talent finders meet. Your account has been created successfully as a <strong>${role}</strong>.
+          </p>
+          ${role === 'candidate' ? `
+          <p style="color: #4B5563; line-height: 1.6;">Here's what you can do next:</p>
+          <ul style="color: #4B5563; line-height: 2;">
+            <li>Complete your profile and upload your resume</li>
+            <li>Browse and apply to job listings</li>
+            <li>Connect with employers and professionals</li>
+            <li>Share updates on your feed</li>
+          </ul>
+          ` : `
+          <p style="color: #4B5563; line-height: 1.6;">Here's what you can do next:</p>
+          <ul style="color: #4B5563; line-height: 2;">
+            <li>Complete your company profile and add your logo</li>
+            <li>Post your first job listing</li>
+            <li>Browse candidate profiles</li>
+            <li>Connect with top talent</li>
+          </ul>
+          `}
+          <div style="text-align: center; margin-top: 32px;">
+            <a href="http://127.0.0.1:5501/frontend/dashboard.html" 
+               style="background: #009B77; color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block;">
+              Go to Dashboard
+            </a>
+          </div>
+          <p style="color: #4B5563; margin-top: 32px; font-size: 14px;">
+            — The TalentLink Team
+          </p>
+        </div>
+      </div>
+    `
+  })
+}
+
+module.exports = { sendApplicationConfirmation, sendNewApplicationAlert, sendStatusUpdate, sendWelcomeEmail }

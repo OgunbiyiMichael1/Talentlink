@@ -1,4 +1,5 @@
 const pool = require('../config/db')
+const { sendApplicationConfirmation, sendNewApplicationAlert, sendStatusUpdate, sendWelcomeEmail } = require('../utils/emails')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -67,6 +68,14 @@ const register = async (req, res) => {
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000 
     })
+
+    // Send welcome email
+try {
+  await sendWelcomeEmail(user.email, user.first_name, user.role)
+} catch (emailError) {
+  console.error('Welcome email failed:', emailError)
+}
+
 
     // 6. Send back response
     res.status(201).json({
