@@ -98,4 +98,55 @@ const updateUser = async (req, res) => {
   }
 }
 
-module.exports = { getUserById, updateUser, deleteUser }
+const searchUsers = async (req, res) => {
+  try {
+    const { search } = req.query
+    if (!search) return res.status(200).json([])
+
+    const result = await pool.query(
+      `SELECT user_id, first_name, last_name, role, headline, profile_picture_url 
+       FROM users 
+       WHERE (first_name ILIKE $1 OR last_name ILIKE $1)
+       AND user_id != $2`,
+      [`%${search}%`, req.user.user_id]
+    )
+    res.status(200).json(result.rows)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
+const globalSearch = async (req, res) => {
+  try {
+    const { query } = req.query
+    if (!query) return res.status(200).json({ users: [], jobs: [] })
+
+    const [users, jobs] = await Promise.all([
+      pool.query(
+        `SELECT user_id, first_name, last_name, role, headline, location, profile_picture_url
+         FROM users
+         WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR headline ILIKE $1
+         LIMIT 10`,
+        [`%${query}%`]
+      ),
+      pool.query(
+        `SELECT job_id, job_title, job_location, job_type, salary_range, created_at
+         FROM jobs
+         WHERE is_active = true
+         AND (job_title ILIKE $1 OR job_description ILIKE $1 OR requirements ILIKE $1)
+         LIMIT 10`,
+        [`%${query}%`]
+      )
+    ])
+
+    res.status(200).json({
+      users: users.rows,
+      jobs: jobs.rows
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+module.exports = { getUserById, updateUser, deleteUser, searchUsers, globalSearch }

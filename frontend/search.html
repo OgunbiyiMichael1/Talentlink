@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search — TalentLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/output.css">
+  <script>
+    if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    }
+  </script>
+</head>
+<body class="bg-[#FCFCFC] dark:bg-[#022F1F] min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-[#FCFCFC] dark:bg-[#022F1F] shadow-sm sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#014421]">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
+      <a href="dashboard.html" class="flex items-center gap-2 shrink-0">
+        <img src="./assets/images/logo.png" alt="TalentLink" class="h-8 w-auto">
+        <span class="text-xl font-bold text-[#222222] dark:text-white hidden md:block" style="font-family: Poppins, sans-serif;">
+          Talent<span class="text-[#009B77]">Link</span>
+        </span>
+      </a>
+      <div class="flex-1 max-w-xl">
+        <input type="text" id="searchInput" placeholder="Search jobs, people, skills..."
+          class="w-full px-4 py-2 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-white dark:bg-[#014421] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors text-sm"
+          onkeypress="handleSearch(event)">
+      </div>
+      <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors shrink-0">
+        <span id="themeIcon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Results -->
+  <div class="max-w-4xl mx-auto px-4 py-10">
+
+    <h1 id="searchTitle" class="text-2xl font-bold text-[#222222] dark:text-white mb-8" style="font-family: Poppins, sans-serif;">
+      Search results for ""
+    </h1>
+
+    <!-- People Results -->
+    <div id="peopleSection" class="mb-10">
+      <h2 class="text-lg font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">People</h2>
+      <div id="peopleContainer" class="grid md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <!-- Jobs Results -->
+    <div id="jobsSection">
+      <h2 class="text-lg font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">Jobs</h2>
+      <div id="jobsContainer" class="grid md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden text-center py-16">
+      <p class="text-4xl mb-4">🔍</p>
+      <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-2" style="font-family: Poppins, sans-serif;">No results found</h3>
+      <p class="text-[#4B5563] dark:text-[#D9D9D9]">Try a different search term.</p>
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark')
+      localStorage.theme = isDark ? 'dark' : 'light'
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
+    })
+
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (!user) window.location.href = 'login.html'
+
+    const params = new URLSearchParams(window.location.search)
+    const query = params.get('q') || ''
+
+    document.getElementById('searchInput').value = query
+    document.getElementById('searchTitle').textContent = `Search results for "${query}"`
+
+    function handleSearch(e) {
+      if (e.key === 'Enter') {
+        const q = document.getElementById('searchInput').value.trim()
+        if (q) window.location.href = `search.html?q=${encodeURIComponent(q)}`
+      }
+    }
+
+    async function runSearch() {
+      if (!query) return
+
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/users/search?query=${encodeURIComponent(query)}`, {
+          credentials: 'include'
+        })
+        const data = await response.json()
+
+        const peopleContainer = document.getElementById('peopleContainer')
+        const jobsContainer = document.getElementById('jobsContainer')
+        peopleContainer.innerHTML = ''
+        jobsContainer.innerHTML = ''
+
+        // Render people
+        if (data.users && data.users.length > 0) {
+          document.getElementById('peopleSection').classList.remove('hidden')
+          data.users.forEach(u => {
+            const initials = u.first_name[0] + u.last_name[0]
+            const card = document.createElement('div')
+            card.className = 'bg-white dark:bg-[#014421] rounded-2xl p-5 border border-[#E5E7EB] dark:border-[#009B77]/20 cursor-pointer hover:shadow-md transition-shadow'
+            card.onclick = () => window.location.href = `public-profile.html?id=${u.user_id}`
+            card.innerHTML = `
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-[#009B77] rounded-full flex items-center justify-center text-white font-bold shrink-0 overflow-hidden">
+                  ${u.profile_picture_url ? `<img src="${u.profile_picture_url}" class="w-full h-full object-cover">` : initials}
+                </div>
+                <div>
+                  <p class="font-bold text-[#222222] dark:text-white">${u.first_name} ${u.last_name}</p>
+                  <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs capitalize">${u.role} ${u.headline ? '· ' + u.headline : ''}</p>
+                  ${u.location ? `<p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">📍 ${u.location}</p>` : ''}
+                </div>
+              </div>
+            `
+            peopleContainer.appendChild(card)
+          })
+        } else {
+          document.getElementById('peopleSection').innerHTML = `
+            <h2 class="text-lg font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">People</h2>
+            <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm">No people found for "${query}"</p>
+          `
+        }
+
+        // Render jobs
+        if (data.jobs && data.jobs.length > 0) {
+          document.getElementById('jobsSection').classList.remove('hidden')
+          data.jobs.forEach(job => {
+            const card = document.createElement('div')
+            card.className = 'bg-white dark:bg-[#014421] rounded-2xl p-5 border border-[#E5E7EB] dark:border-[#009B77]/20 cursor-pointer hover:shadow-md transition-shadow'
+            card.onclick = () => window.location.href = `job-detail.html?id=${job.job_id}`
+            card.innerHTML = `
+              <div class="flex items-start justify-between mb-2">
+                <h3 class="font-bold text-[#222222] dark:text-white">${job.job_title}</h3>
+                <span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700 shrink-0">${job.job_type}</span>
+              </div>
+              <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm">📍 ${job.job_location}</p>
+              ${job.salary_range ? `<p class="text-[#009B77] text-sm font-medium mt-1">💰 ${job.salary_range}</p>` : ''}
+            `
+            jobsContainer.appendChild(card)
+          })
+        } else {
+          document.getElementById('jobsSection').innerHTML = `
+            <h2 class="text-lg font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">Jobs</h2>
+            <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm">No jobs found for "${query}"</p>
+          `
+        }
+
+        if (!data.users?.length && !data.jobs?.length) {
+          document.getElementById('emptyState').classList.remove('hidden')
+        }
+
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    runSearch()
+  </script>
+
+</body>
+</html>

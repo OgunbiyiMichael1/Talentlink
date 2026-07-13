@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — TalentLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/output.css">
+  <script>
+    if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    }
+  </script>
+</head>
+<body class="bg-[#FCFCFC] dark:bg-[#022F1F] min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-[#FCFCFC] dark:bg-[#022F1F] shadow-sm sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#014421]">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="dashboard.html" class="flex items-center gap-2">
+        <img src="./assets/images/logo.png" alt="TalentLink" class="h-8 w-auto">
+        <span class="text-xl font-bold text-[#222222] dark:text-white" style="font-family: Poppins, sans-serif;">
+          Talent<span class="text-[#009B77]">Link</span>
+        </span>
+      </a>
+      <div class="flex items-center gap-3">
+        <button onclick="history.back()" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm font-medium">← Back</button>
+        <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Content -->
+  <div class="max-w-4xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
+
+    <!-- Left Card -->
+    <div class="md:col-span-1">
+      <div class="bg-white dark:bg-[#014421] rounded-2xl border border-[#E5E7EB] dark:border-[#009B77]/20 overflow-hidden">
+        <div class="bg-linear-to-br from-[#014421] to-[#009B77] h-24"></div>
+        <div class="px-6 pb-6">
+          <div class="relative -mt-10 mb-4">
+            <div id="avatarDisplay" class="w-20 h-20 bg-[#009B77] rounded-full border-4 border-white dark:border-[#014421] flex items-center justify-center text-white text-2xl font-bold overflow-hidden">?</div>
+          </div>
+          <h2 id="profileName" class="text-xl font-bold text-[#222222] dark:text-white" style="font-family: Poppins, sans-serif;">Loading...</h2>
+          <p id="profileHeadline" class="text-[#4B5563] dark:text-[#D9D9D9] text-sm mt-1"></p>
+          <p id="profileLocation" class="text-[#4B5563] dark:text-[#D9D9D9] text-xs mt-1"></p>
+          <p id="profileRole" class="text-xs px-3 py-1 rounded-full bg-[#009B77]/10 text-[#009B77] font-medium mt-3 inline-block capitalize"></p>
+
+          <hr class="border-[#E5E7EB] dark:border-[#009B77]/20 my-4">
+
+          <button id="connectBtn" onclick="sendConnection()"
+            class="w-full bg-[#009B77] hover:bg-[#007A5E] text-white py-2 rounded-lg text-sm font-medium transition-colors">
+            Connect
+          </button>
+
+          <div class="flex gap-4 mt-4">
+  <div class="text-center">
+    <p id="connectionsCount" class="font-bold text-[#222222] dark:text-white">0</p>
+    <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">Connections</p>
+  </div>
+  <div class="text-center">
+    <p id="postsCountSidebar" class="font-bold text-[#222222] dark:text-white">0</p>
+    <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">Posts</p>
+  </div>
+</div>
+
+          <div id="socialLinks" class="flex flex-col gap-2 mt-4"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Details -->
+    <div class="md:col-span-2 flex flex-col gap-6">
+
+      <!-- Bio -->
+      <div id="bioSection" class="hidden bg-white dark:bg-[#014421] rounded-2xl p-6 border border-[#E5E7EB] dark:border-[#009B77]/20">
+        <h3 class="font-bold text-[#222222] dark:text-white mb-3" style="font-family: Poppins, sans-serif;">About</h3>
+        <p id="profileBio" class="text-[#4B5563] dark:text-[#D9D9D9] leading-relaxed text-sm"></p>
+      </div>
+
+      <!-- Skills -->
+      <div id="skillsSection" class="hidden bg-white dark:bg-[#014421] rounded-2xl p-6 border border-[#E5E7EB] dark:border-[#009B77]/20">
+        <h3 class="font-bold text-[#222222] dark:text-white mb-4" style="font-family: Poppins, sans-serif;">Skills</h3>
+        <div id="skillsList" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <!-- Resume -->
+      <div id="resumeSection" class="hidden bg-white dark:bg-[#014421] rounded-2xl p-6 border border-[#E5E7EB] dark:border-[#009B77]/20">
+        <h3 class="font-bold text-[#222222] dark:text-white mb-3" style="font-family: Poppins, sans-serif;">Resume</h3>
+        <a id="resumeLink" href="#" target="_blank"
+          class="flex items-center gap-2 text-[#009B77] hover:underline text-sm font-medium">
+          📄 View Resume
+        </a>
+      </div>
+
+      <!-- Posts Section -->
+<div class="bg-white dark:bg-[#014421] rounded-2xl p-6 border border-[#E5E7EB] dark:border-[#009B77]/20">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="font-bold text-[#222222] dark:text-white" style="font-family: Poppins, sans-serif;">Posts</h3>
+    <span id="postsCount" class="text-[#4B5563] dark:text-[#D9D9D9] text-sm"></span>
+  </div>
+  <div id="userPostsContainer" class="flex flex-col gap-4">
+    <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm">Loading posts...</p>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark')
+      localStorage.theme = isDark ? 'dark' : 'light'
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
+    })
+
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (!user) window.location.href = 'login.html'
+
+    const params = new URLSearchParams(window.location.search)
+    const profileId = params.get('id')
+
+    if (!profileId) window.location.href = 'dashboard.html'
+
+    // Hide connect button if viewing own profile
+    if (parseInt(profileId) === user.user_id) {
+      document.getElementById('connectBtn').textContent = 'Edit Profile'
+      document.getElementById('connectBtn').onclick = () => window.location.href = 'profile.html'
+    }
+
+   //load profile data
+   async function loadProfile() {
+  try {
+    const [userRes, candidateRes] = await Promise.all([
+      fetch(`http://127.0.0.1:5000/api/users/${profileId}`, { credentials: 'include' }),
+      fetch(`http://127.0.0.1:5000/api/candidates/${profileId}`, { credentials: 'include' })
+    ])
+
+    // 🛑 GUARD CLAUSE: Catch server or database failures early
+    if (!userRes.ok || !candidateRes.ok) {
+      document.title = "Profile Unavailable — TalentLink"
+      
+      // Let's update the main text areas safely to tell the user what's up
+      document.getElementById('profileName').textContent = "Profile Temporarily Unavailable"
+      document.getElementById('profileHeadline').innerHTML = `
+        <span class="text-red-500 font-medium">
+          ⚠️ Connection lost. The database server is currently experiencing an outage. Please try refreshing in a minute.
+        </span>`
+      
+      // Clear the avatar initials fallback so it doesn't look broken
+      document.getElementById('avatarDisplay').textContent = "?"
+      
+      return; // ↩️ EXIT EARLY: Stop execution here so the rest of the code never crashes!
+    }
+
+    // 🟢 HAPPY PATH: This only runs if the server responds with a beautiful 200 OK
+    const userData = await userRes.json()
+    const candidateData = await candidateRes.json()
+
+    document.title = `${userData.first_name} ${userData.last_name} — TalentLink`
+    document.getElementById('profileName').textContent = `${userData.first_name} ${userData.last_name}`
+    document.getElementById('profileHeadline').textContent = userData.headline || ''
+    document.getElementById('profileLocation').textContent = userData.location ? `📍 ${userData.location}` : ''
+    document.getElementById('profileRole').textContent = userData.role
+
+    if (userData.profile_picture_url) {
+      document.getElementById('avatarDisplay').innerHTML = `<img src="${userData.profile_picture_url}" class="w-full h-full object-cover">`
+    } else {
+      document.getElementById('avatarDisplay').textContent = userData.first_name[0] + userData.last_name[0]
+    }
+
+    // Bio
+    if (candidateData.bio) {
+      document.getElementById('bioSection').classList.remove('hidden')
+      document.getElementById('profileBio').textContent = candidateData.bio
+    }
+
+    // Skills
+    if (candidateData.skills) {
+      document.getElementById('skillsSection').classList.remove('hidden')
+      const skills = candidateData.skills.split(',').map(s => s.trim())
+      document.getElementById('skillsList').innerHTML = skills.map(skill =>
+        `<span class="px-3 py-1 bg-[#009B77]/10 text-[#009B77] rounded-full text-xs font-medium">${skill}</span>`
+      ).join('')
+    }
+
+    // Resume
+    if (candidateData.resume_url) {
+      document.getElementById('resumeSection').classList.remove('hidden')
+      document.getElementById('resumeLink').href = candidateData.resume_url
+    }
+
+    // Social links
+    const socialLinks = document.getElementById('socialLinks')
+    if (candidateData.github_url) {
+      socialLinks.innerHTML += `<a href="${candidateData.github_url}" target="_blank" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm">🐙 GitHub</a>`
+    }
+    if (candidateData.linkedin_url) {
+      socialLinks.innerHTML += `<a href="${candidateData.linkedin_url}" target="_blank" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm">💼 LinkedIn</a>`
+    }
+
+  } catch (error) {
+    // 🌐 TOTAL NETWORK CRASH (e.g., backend server is completely turned off)
+    console.error("Total connection failure:", error)
+    document.getElementById('profileName').textContent = "Connection Error"
+    document.getElementById('profileHeadline').textContent = "Could not connect to the TalentLink backend server. Please verify your connection."
+  }
+}
+
+    async function sendConnection() {
+      const btn = document.getElementById('connectBtn')
+      btn.textContent = '⏳ Sending...'
+      btn.disabled = true
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/connections', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ receiver_id: parseInt(profileId) })
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          btn.textContent = '✅ Request Sent'
+          btn.className = 'w-full bg-gray-200 text-gray-500 py-2 rounded-lg text-sm font-medium cursor-not-allowed'
+        } else {
+          btn.textContent = data.message === 'Connection request already exists' ? '✅ Already Connected' : 'Connect'
+          btn.disabled = false
+        }
+      } catch (error) {
+        btn.textContent = 'Connect'
+        btn.disabled = false
+      }
+    }
+
+
+    async function loadUserPosts() {
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/api/posts/user/${profileId}`, {
+      credentials: 'include'
+    })
+    const posts = await response.json()
+    const container = document.getElementById('userPostsContainer')
+    container.innerHTML = ''
+
+    document.getElementById('postsCount').textContent = `${posts.length} post${posts.length !== 1 ? 's' : ''}`
+    document.getElementById('postsCountSidebar').textContent = posts.length
+
+    if (!Array.isArray(posts) || posts.length === 0) {
+      container.innerHTML = '<p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm">No posts yet.</p>'
+      return
+    }
+
+    posts.forEach(post => {
+      const card = document.createElement('div')
+      card.className = 'border-b border-[#E5E7EB] dark:border-[#009B77]/20 pb-4 last:border-0'
+      card.innerHTML = `
+        <p class="text-[#222222] dark:text-white text-sm leading-relaxed">${post.content}</p>
+        ${post.media_url ? `<img src="${post.media_url}" class="w-full rounded-lg mt-3 object-cover max-h-48">` : ''}
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs mt-2">${new Date(post.created_at).toLocaleDateString()}</p>
+      `
+      container.appendChild(card)
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+async function loadConnectionsCount() {
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/api/connections`, {
+      credentials: 'include'
+    })
+    const connections = await response.json()
+    if (Array.isArray(connections)) {
+      document.getElementById('connectionsCount').textContent = connections.length
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
+    loadProfile()
+    loadUserPosts()
+loadConnectionsCount()
+  </script>
+
+</body>
+</html>

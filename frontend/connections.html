@@ -3,20 +3,385 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TalentLink — Where talent owners and talent finders meet. Find your next job or hire the best candidates.">
-  <meta name="keywords" content="jobs, hiring, recruitment, talent, careers, Nigeria, tech jobs">
-  <meta name="author" content="TalentLink">
-  
-  <!-- Open Graph for social sharing -->
-  <meta property="og:title" content="TalentLink">
-  <meta property="og:description" content="Where talent owners and talent finders meet">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://talentlink.com">
-
-  <title>TalentLink — Where Talent Owners and Talent Finders Meet</title>
+  <title>My Network — TalentLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/output.css">
+  <script>
+    if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    }
+  </script>
 </head>
-<body>
-  
+<body class="bg-[#FCFCFC] dark:bg-[#022F1F] min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-[#FCFCFC] dark:bg-[#022F1F] shadow-sm sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#014421]">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="dashboard.html" class="flex items-center gap-2">
+        <img src="./assets/images/logo.png" alt="TalentLink Logo" class="h-8 w-auto">
+        <span class="text-xl font-bold text-[#222222] dark:text-white" style="font-family: Poppins, sans-serif;">
+          Talent<span class="text-[#009B77]">Link</span>
+        </span>
+      </a>
+      <div class="hidden md:flex items-center gap-4">
+        <a href="dashboard.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors text-sm">Dashboard</a>
+        <a href="jobs.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium transition-colors text-sm">Jobs</a>
+        <button onclick="logout()" class="text-red-500 hover:text-red-700 font-medium transition-colors text-sm">Logout</button>
+        <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+      <div class="flex md:hidden items-center gap-2">
+        <button id="themeToggleMobile" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421]">
+          <span id="themeIconMobile">🌙</span>
+        </button>
+        <button id="hamburger" class="p-2 text-[#222222] dark:text-white">
+          <svg id="menuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="menuClose" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="md:hidden bg-[#FCFCFC] dark:bg-[#022F1F] border-t border-[#E5E7EB] dark:border-[#014421] px-4 py-4 flex flex-col gap-4">
+      <a href="dashboard.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium">Dashboard</a>
+      <a href="jobs.html" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] font-medium">Jobs</a>
+      <button onclick="logout()" class="text-red-500 text-left font-medium">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="max-w-4xl mx-auto px-4 py-10">
+
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-[#222222] dark:text-white mb-2" style="font-family: Poppins, sans-serif;">My Network</h1>
+      <p class="text-[#4B5563] dark:text-[#D9D9D9]">Manage your connections and grow your professional network.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 gap-4 mb-8">
+      <div class="bg-white dark:bg-[#014421] rounded-xl p-5 border border-[#E5E7EB] dark:border-[#009B77]/20 text-center">
+        <p id="connectionsCount" class="text-3xl font-bold text-[#009B77]">0</p>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm mt-1">Connections</p>
+      </div>
+      <div class="bg-white dark:bg-[#014421] rounded-xl p-5 border border-[#E5E7EB] dark:border-[#009B77]/20 text-center">
+        <p id="pendingCount" class="text-3xl font-bold text-[#F59E0B]">0</p>
+        <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm mt-1">Pending Requests</p>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-2 mb-6 border-b border-[#E5E7EB] dark:border-[#014421]">
+      <button onclick="switchTab('connections')" id="connectionsTab"
+        class="tab-btn px-4 py-3 text-sm font-medium text-[#009B77] border-b-2 border-[#009B77] transition-colors">
+        My Connections
+      </button>
+      <button onclick="switchTab('pending')" id="pendingTab"
+        class="tab-btn px-4 py-3 text-sm font-medium text-[#4B5563] dark:text-[#D9D9D9] border-b-2 border-transparent hover:text-[#009B77] transition-colors">
+        Pending Requests
+      </button>
+      <button onclick="switchTab('find')" id="findTab"
+        class="tab-btn px-4 py-3 text-sm font-medium text-[#4B5563] dark:text-[#D9D9D9] border-b-2 border-transparent hover:text-[#009B77] transition-colors">
+        Find People
+      </button>
+    </div>
+
+    <!-- Connections Tab -->
+    <div id="connectionsPanel">
+      <div id="connectionsContainer" class="grid md:grid-cols-2 gap-4">
+        <div class="col-span-2 bg-white dark:bg-[#014421] rounded-2xl p-8 text-center border border-[#E5E7EB] dark:border-[#009B77]/20">
+          <p class="text-[#4B5563] dark:text-[#D9D9D9]">Loading connections...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Tab -->
+    <div id="pendingPanel" class="hidden">
+      <div id="pendingContainer" class="flex flex-col gap-4">
+        <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 text-center border border-[#E5E7EB] dark:border-[#009B77]/20">
+          <p class="text-[#4B5563] dark:text-[#D9D9D9]">Loading pending requests...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Find People Tab -->
+    <div id="findPanel" class="hidden">
+      <div class="mb-4">
+        <input type="text" id="searchPeople" placeholder="Search by name..."
+          class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-white dark:bg-[#014421] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+      </div>
+      <div id="findContainer" class="grid md:grid-cols-2 gap-4"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // Dark mode
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark')
+      localStorage.theme = isDark ? 'dark' : 'light'
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
+      document.getElementById('themeIconMobile').textContent = isDark ? '☀️' : '🌙'
+    }
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme)
+    document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme)
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden')
+      document.getElementById('menuOpen').classList.toggle('hidden')
+      document.getElementById('menuClose').classList.toggle('hidden')
+    })
+
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (!user) window.location.href = 'login.html'
+
+    async function logout() {
+      await fetch('http://127.0.0.1:5000/api/auth/logout', { method: 'POST', credentials: 'include' })
+      localStorage.removeItem('user')
+      window.location.href = 'login.html'
+    }
+
+    // Switch tabs
+    function switchTab(tab) {
+      document.getElementById('connectionsPanel').classList.add('hidden')
+      document.getElementById('pendingPanel').classList.add('hidden')
+      document.getElementById('findPanel').classList.add('hidden')
+      document.getElementById(`${tab}Panel`).classList.remove('hidden')
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('text-[#009B77]', 'border-[#009B77]')
+        btn.classList.add('text-[#4B5563]', 'border-transparent')
+      })
+      const activeBtn = document.getElementById(`${tab}Tab`)
+      activeBtn.classList.add('text-[#009B77]', 'border-[#009B77]')
+      activeBtn.classList.remove('text-[#4B5563]', 'border-transparent')
+    }
+
+    // Load connections
+    async function loadConnections() {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/connections', {
+          credentials: 'include'
+        })
+        const connections = await response.json()
+        const container = document.getElementById('connectionsContainer')
+        container.innerHTML = ''
+        document.getElementById('connectionsCount').textContent = connections.length
+
+        if (connections.length === 0) {
+          container.innerHTML = `
+            <div class="col-span-2 bg-white dark:bg-[#014421] rounded-2xl p-12 text-center border border-[#E5E7EB] dark:border-[#009B77]/20">
+              <p class="text-4xl mb-4">🤝</p>
+              <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-2" style="font-family: Poppins, sans-serif;">No connections yet</h3>
+              <p class="text-[#4B5563] dark:text-[#D9D9D9] mb-4">Start building your network by finding people to connect with.</p>
+              <button onclick="switchTab('find')" class="bg-[#009B77] text-white px-6 py-2 rounded-lg hover:bg-[#007A5E] transition-colors font-medium">Find People</button>
+            </div>
+          `
+          return
+        }
+
+        connections.forEach(conn => {
+          const initials = conn.other_first_name[0] + conn.other_last_name[0]
+          const card = document.createElement('div')
+          card.className = 'bg-white dark:bg-[#014421] rounded-2xl p-5 border border-[#E5E7EB] dark:border-[#009B77]/20'
+          card.innerHTML = `
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-[#009B77] rounded-full flex items-center justify-center text-white font-bold shrink-0">
+                ${conn.other_profile_picture ? `<img src="${conn.other_profile_picture}" class="w-full h-full object-cover rounded-full">` : initials}
+              </div>
+              <div>
+                <p class="font-bold text-[#222222] dark:text-white">${conn.other_first_name} ${conn.other_last_name}</p>
+                <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">Connected</p>
+              </div>
+            </div>
+            <button onclick="removeConnection(${conn.connection_id}, this)"
+              class="w-full border border-red-200 text-red-400 py-2 rounded-lg text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+              Remove Connection
+            </button>
+          `
+          container.appendChild(card)
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    // Load pending requests
+    async function loadPending() {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/connections/pending', {
+          credentials: 'include'
+        })
+        const pending = await response.json()
+        const container = document.getElementById('pendingContainer')
+        container.innerHTML = ''
+        document.getElementById('pendingCount').textContent = pending.length
+
+        if (pending.length === 0) {
+          container.innerHTML = `
+            <div class="bg-white dark:bg-[#014421] rounded-2xl p-8 text-center border border-[#E5E7EB] dark:border-[#009B77]/20">
+              <p class="text-[#4B5563] dark:text-[#D9D9D9]">No pending connection requests.</p>
+            </div>
+          `
+          return
+        }
+
+        pending.forEach(req => {
+          const initials = req.first_name[0] + req.last_name[0]
+          const card = document.createElement('div')
+          card.className = 'bg-white dark:bg-[#014421] rounded-2xl p-5 border border-[#E5E7EB] dark:border-[#009B77]/20'
+          card.innerHTML = `
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-[#009B77] rounded-full flex items-center justify-center text-white font-bold shrink-0">
+                ${req.profile_picture_url ? `<img src="${req.profile_picture_url}" class="w-full h-full object-cover rounded-full">` : initials}
+              </div>
+              <div>
+                <p class="font-bold text-[#222222] dark:text-white">${req.first_name} ${req.last_name}</p>
+                <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">Wants to connect</p>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="respondToRequest(${req.connection_id}, 'Accepted', this)"
+                class="flex-1 bg-[#009B77] text-white py-2 rounded-lg text-sm hover:bg-[#007A5E] transition-colors font-medium">
+                Accept
+              </button>
+              <button onclick="respondToRequest(${req.connection_id}, 'Rejected', this)"
+                class="flex-1 border border-[#E5E7EB] dark:border-[#014421] text-[#4B5563] dark:text-[#D9D9D9] py-2 rounded-lg text-sm hover:border-red-400 hover:text-red-500 transition-colors">
+                Decline
+              </button>
+            </div>
+          `
+          container.appendChild(card)
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    // Respond to connection request
+    async function respondToRequest(connectionId, status, btn) {
+      btn.textContent = '⏳'
+      btn.disabled = true
+
+      try {
+        await fetch(`http://127.0.0.1:5000/api/connections/${connectionId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ status })
+        })
+        loadPending()
+        loadConnections()
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    // Remove connection
+    async function removeConnection(connectionId, btn) {
+      if (!confirm('Remove this connection?')) return
+      btn.textContent = '⏳ Removing...'
+      btn.disabled = true
+
+      try {
+        await fetch(`http://127.0.0.1:5000/api/connections/${connectionId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+        loadConnections()
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    // Find people - search all users
+    async function findPeople(query) {
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/jobs?search=${query}`, {
+          credentials: 'include'
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    document.getElementById('searchPeople').addEventListener('input', async (e) => {
+      const query = e.target.value.trim()
+      if (query.length < 2) return
+
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/users?search=${encodeURIComponent(query)}`, {
+          credentials: 'include'
+        })
+        const users = await response.json()
+        const container = document.getElementById('findContainer')
+        container.innerHTML = ''
+
+        if (!Array.isArray(users) || users.length === 0) {
+          container.innerHTML = `<div class="col-span-2 text-center text-[#4B5563] dark:text-[#D9D9D9] py-8">No users found</div>`
+          return
+        }
+
+        users.filter(u => u.user_id !== user.user_id).forEach(u => {
+          const initials = u.first_name[0] + u.last_name[0]
+          const card = document.createElement('div')
+          card.className = 'bg-white dark:bg-[#014421] rounded-2xl p-5 border border-[#E5E7EB] dark:border-[#009B77]/20'
+          card.innerHTML = `
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-[#009B77] rounded-full flex items-center justify-center text-white font-bold shrink-0">
+                ${u.profile_picture_url ? `<img src="${u.profile_picture_url}" class="w-full h-full object-cover rounded-full">` : initials}
+              </div>
+              <div>
+                <p class="font-bold text-[#222222] dark:text-white">${u.first_name} ${u.last_name}</p>
+                <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs">${u.role} ${u.headline ? '· ' + u.headline : ''}</p>
+              </div>
+            </div>
+            <button onclick="sendConnection(${u.user_id}, this)"
+              class="w-full bg-[#009B77] text-white py-2 rounded-lg text-sm hover:bg-[#007A5E] transition-colors font-medium">
+              Connect
+            </button>
+          `
+          container.appendChild(card)
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    })
+
+    // Send connection request
+    async function sendConnection(receiverId, btn) {
+      btn.textContent = '⏳ Sending...'
+      btn.disabled = true
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/connections', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ receiver_id: receiverId })
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          btn.textContent = '✅ Request Sent'
+          btn.className = 'w-full bg-gray-200 text-gray-500 py-2 rounded-lg text-sm cursor-not-allowed'
+        } else {
+          btn.textContent = data.message === 'Connection request already exists' ? '✅ Already Connected' : 'Connect'
+          btn.disabled = data.message === 'Connection request already exists'
+        }
+      } catch (error) {
+        btn.textContent = 'Connect'
+        btn.disabled = false
+      }
+    }
+
+    // Init
+    loadConnections()
+    loadPending()
+  </script>
+
 </body>
 </html>

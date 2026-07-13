@@ -16,38 +16,59 @@
 
   <!-- Navbar -->
   <nav class="bg-[#FCFCFC] dark:bg-[#022F1F] shadow-sm sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#014421]">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-      <a href="employer-dashboard.html" class="flex items-center gap-2 shrink-0">
-        <img src="./assets/images/logo.png" alt="TalentLink" class="h-8 w-auto">
-        <span class="text-xl font-bold text-[#222222] dark:text-white hidden md:block" style="font-family: Poppins, sans-serif;">
-          Talent<span class="text-[#009B77]">Link</span>
-        </span>
-      </a>
-      <div class="hidden md:flex items-center gap-4">
-        <span id="companyName" class="text-[#4B5563] dark:text-[#D9D9D9] text-sm font-medium"></span>
-        <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors">
-          <span id="themeIcon">🌙</span>
-        </button>
-        <button onclick="logout()" class="text-red-500 hover:text-red-700 font-medium transition-colors text-sm">Logout</button>
-      </div>
-      <div class="flex md:hidden items-center gap-2">
-        <button id="themeToggleMobile" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421]">
-          <span id="themeIconMobile">🌙</span>
-        </button>
-        <button id="hamburger" class="p-2 text-[#222222] dark:text-white">
-          <svg id="menuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-          <svg id="menuClose" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+    <a href="employer-dashboard.html" class="flex items-center gap-2 shrink-0">
+      <img src="./assets/images/logo.png" alt="TalentLink" class="h-8 w-auto">
+      <span class="text-xl font-bold text-[#222222] dark:text-white hidden md:block" style="font-family: Poppins, sans-serif;">
+        Talent<span class="text-[#009B77]">Link</span>
+      </span>
+    </a>
+    <div class="hidden md:flex items-center gap-4">
+      <span id="companyName" class="text-[#4B5563] dark:text-[#D9D9D9] text-sm font-medium"></span>
+      <button id="themeToggle" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421] text-[#222222] dark:text-white transition-colors">
+        <span id="themeIcon">🌙</span>
+      </button>
+      <button onclick="logout()" class="text-red-500 hover:text-red-700 font-medium transition-colors text-sm">Logout</button>
     </div>
-    <div id="mobileMenu" class="md:hidden bg-[#FCFCFC] dark:bg-[#022F1F] border-t border-[#E5E7EB] dark:border-[#014421] px-4 py-4 flex flex-col gap-4">
-      <button onclick="logout()" class="text-red-500 text-left font-medium">Logout</button>
+    <div class="flex md:hidden items-center gap-2">
+      <button id="themeToggleMobile" class="p-2 rounded-lg bg-[#D9D9D9] dark:bg-[#014421]">
+        <span id="themeIconMobile">🌙</span>
+      </button>
+      <button id="hamburger" class="p-2 text-[#222222] dark:text-white">
+        <svg id="menuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="menuClose" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
     </div>
-  </nav>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="md:hidden bg-[#FCFCFC] dark:bg-[#022F1F] border-t border-[#E5E7EB] dark:border-[#014421] px-4 py-4 flex flex-col gap-3">
+    <button onclick="showSection('jobs')" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#009B77]/10 text-[#009B77] font-medium text-sm text-left">
+      💼 My Jobs
+    </button>
+    <button onclick="showSection('post')" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm text-left">
+      ➕ Post a Job
+    </button>
+    <button onclick="showSection('profile')" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm text-left">
+      🏢 Company Profile
+    </button>
+    <a href="connections.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm">
+      🤝 My Network
+    </a>
+    <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm">
+      🏠 Feed
+    </a>
+    <hr class="border-[#E5E7EB] dark:border-[#009B77]/20">
+    <button onclick="logout()" class="flex items-center gap-3 px-3 py-2 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 font-medium text-sm text-left w-full">
+      🚪 Logout
+    </button>
+  </div>
+</nav>
+
 
   <!-- Main Layout -->
   <div class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -61,6 +82,9 @@
           <p id="sidebarIndustry" class="text-[#D9D9D9] text-sm mt-1">Employer</p>
         </div>
         <nav class="p-4 flex flex-col gap-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm w-full text-left transition-colors">
+  🏠 Feed
+</a>
           <button onclick="showSection('jobs')" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#009B77]/10 text-[#009B77] font-medium text-sm w-full text-left">
             💼 My Jobs
           </button>
@@ -70,6 +94,10 @@
           <button onclick="showSection('profile')" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm w-full text-left transition-colors">
             🏢 Company Profile
           </button>
+          <a href="connections.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#4B5563] dark:text-[#D9D9D9] hover:bg-[#009B77]/10 hover:text-[#009B77] font-medium text-sm w-full text-left transition-colors">
+  🤝 My Network
+</a>
+
           <hr class="border-[#E5E7EB] dark:border-[#009B77]/20 my-2">
           <button onclick="logout()" class="flex items-center gap-3 px-3 py-2 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 font-medium text-sm w-full text-left transition-colors">
             🚪 Logout
@@ -81,6 +109,9 @@
     <!-- Main Content -->
     <main class="md:col-span-3 flex flex-col gap-6">
 
+      <input type="text" id="searchInput" placeholder="Search jobs, people, skills..."
+  class="w-full px-4 py-2 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-white dark:bg-[#014421] text-[#222222] dark:text-white placeholder-[#4B5563] focus:outline-none focus:border-[#009B77] transition-colors text-sm"
+  onkeypress="handleSearch(event)">
       <!-- Stats Row -->
       <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
         <div class="bg-white dark:bg-[#014421] rounded-xl p-5 border border-[#E5E7EB] dark:border-[#009B77]/20">
@@ -265,64 +296,77 @@
 
     // Load jobs
     async function loadJobs() {
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/api/jobs/employer/${user.user_id}`, {
+      credentials: 'include'
+    })
+    const jobs = await response.json()
+    const container = document.getElementById('jobsContainer')
+    container.innerHTML = ''
+
+    document.getElementById('totalJobs').textContent = jobs.length
+    document.getElementById('activeJobs').textContent = jobs.filter(j => j.is_active).length
+
+    if (jobs.length === 0) {
+      container.innerHTML = `
+        <div class="bg-white dark:bg-[#014421] rounded-2xl p-12 text-center border border-[#E5E7EB] dark:border-[#009B77]/20">
+          <p class="text-4xl mb-4">💼</p>
+          <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-2" style="font-family: Poppins, sans-serif;">No jobs posted yet</h3>
+          <p class="text-[#4B5563] dark:text-[#D9D9D9] mb-6">Post your first job to start receiving applications.</p>
+          <button onclick="showSection('post')" class="bg-[#009B77] text-white px-6 py-2 rounded-lg hover:bg-[#007A5E] transition-colors font-medium">Post a Job</button>
+        </div>
+      `
+      return
+    }
+
+    // Count total applicants across all jobs
+    let totalApplicants = 0
+    await Promise.all(jobs.map(async (job) => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/jobs/employer/${user.user_id}`, {
+        const appRes = await fetch(`http://127.0.0.1:5000/api/applications/job/${job.job_id}`, {
           credentials: 'include'
         })
-        const jobs = await response.json()
-        const container = document.getElementById('jobsContainer')
-        container.innerHTML = ''
+        const applicants = await appRes.json()
+        totalApplicants += applicants.length
+      } catch (e) {}
+    }))
+    document.getElementById('totalApplicants').textContent = totalApplicants
 
-        document.getElementById('totalJobs').textContent = jobs.length
-        document.getElementById('activeJobs').textContent = jobs.filter(j => j.is_active).length
-
-        if (jobs.length === 0) {
-          container.innerHTML = `
-            <div class="bg-white dark:bg-[#014421] rounded-2xl p-12 text-center border border-[#E5E7EB] dark:border-[#009B77]/20">
-              <p class="text-4xl mb-4">💼</p>
-              <h3 class="text-xl font-bold text-[#222222] dark:text-white mb-2" style="font-family: Poppins, sans-serif;">No jobs posted yet</h3>
-              <p class="text-[#4B5563] dark:text-[#D9D9D9] mb-6">Post your first job to start receiving applications.</p>
-              <button onclick="showSection('post')" class="bg-[#009B77] text-white px-6 py-2 rounded-lg hover:bg-[#007A5E] transition-colors font-medium">Post a Job</button>
-            </div>
-          `
-          return
-        }
-
-        jobs.forEach(job => {
-          const card = document.createElement('div')
-          card.className = 'bg-white dark:bg-[#014421] rounded-2xl p-6 border border-[#E5E7EB] dark:border-[#009B77]/20'
-          card.innerHTML = `
-            <div class="flex items-start justify-between gap-4 mb-4">
-              <div>
-                <h3 class="font-bold text-[#222222] dark:text-white text-lg" style="font-family: Poppins, sans-serif;">${job.job_title}</h3>
-                <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm">${job.job_location} · ${job.job_type}</p>
-                ${job.salary_range ? `<p class="text-[#009B77] text-sm font-medium mt-1">💰 ${job.salary_range}</p>` : ''}
-              </div>
-              <span class="text-xs px-3 py-1 rounded-full font-medium shrink-0 ${job.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}">
-                ${job.is_active ? 'Active' : 'Closed'}
-              </span>
-            </div>
-            <div class="flex flex-wrap gap-2 pt-4 border-t border-[#E5E7EB] dark:border-[#009B77]/20">
-              <button onclick="viewApplicants(${job.job_id}, '${job.job_title}')" 
-                class="bg-[#009B77] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#007A5E] transition-colors">
-                View Applicants
-              </button>
-              <button onclick="closeJob(${job.job_id}, this)"
-                class="border border-[#E5E7EB] dark:border-[#009B77]/30 text-[#4B5563] dark:text-[#D9D9D9] px-4 py-2 rounded-lg text-sm hover:border-red-400 hover:text-red-500 transition-colors">
-                ${job.is_active ? 'Close Job' : 'Reopen Job'}
-              </button>
-              <button onclick="deleteJob(${job.job_id})"
-                class="border border-red-200 text-red-400 px-4 py-2 rounded-lg text-sm hover:bg-red-50 transition-colors">
-                Delete
-              </button>
-            </div>
-          `
-          container.appendChild(card)
-        })
-      } catch (error) {
-        console.error(error)
-      }
-    }
+    jobs.forEach(job => {
+      const card = document.createElement('div')
+      card.className = 'bg-white dark:bg-[#014421] rounded-2xl p-6 border border-[#E5E7EB] dark:border-[#009B77]/20'
+      card.innerHTML = `
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <h3 class="font-bold text-[#222222] dark:text-white text-lg" style="font-family: Poppins, sans-serif;">${job.job_title}</h3>
+            <p class="text-[#4B5563] dark:text-[#D9D9D9] text-sm">${job.job_location} · ${job.job_type}</p>
+            ${job.salary_range ? `<p class="text-[#009B77] text-sm font-medium mt-1">💰 ${job.salary_range}</p>` : ''}
+          </div>
+          <span class="text-xs px-3 py-1 rounded-full font-medium shrink-0 ${job.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}">
+            ${job.is_active ? 'Active' : 'Closed'}
+          </span>
+        </div>
+        <div class="flex flex-wrap gap-2 pt-4 border-t border-[#E5E7EB] dark:border-[#009B77]/20">
+          <button onclick="viewApplicants(${job.job_id}, '${job.job_title}')" 
+            class="bg-[#009B77] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#007A5E] transition-colors">
+            View Applicants
+          </button>
+          <button onclick="closeJob(${job.job_id}, this)"
+            class="border border-[#E5E7EB] dark:border-[#009B77]/30 text-[#4B5563] dark:text-[#D9D9D9] px-4 py-2 rounded-lg text-sm hover:border-red-400 hover:text-red-500 transition-colors">
+            ${job.is_active ? 'Close Job' : 'Reopen Job'}
+          </button>
+          <button onclick="deleteJob(${job.job_id})"
+            class="border border-red-200 text-red-400 px-4 py-2 rounded-lg text-sm hover:bg-red-50 transition-colors">
+            Delete
+          </button>
+        </div>
+      `
+      container.appendChild(card)
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
 
     // View applicants for a job
     async function viewApplicants(jobId, jobTitle) {
@@ -530,6 +574,16 @@
         btn.disabled = false
       }
     }
+
+    function handleSearch(e) {
+  if (e.key === 'Enter') {
+    const query = document.getElementById('searchInput').value.trim()
+    if (query) {
+      window.location.href = `search.html?q=${encodeURIComponent(query)}`
+    }
+  }
+}
+
 
     // Init
     loadProfile()
