@@ -7,9 +7,10 @@ const getUserById = async (req, res) => {
 
     // 2. Query the database for that user
     const queryText = `
-      SELECT user_id, first_name, last_name, email, role, profile_picture_url, headline, location, created_at 
-      FROM users 
-      WHERE user_id = $1
+      SELECT user_id, first_name, last_name, email, role, profile_picture_url, 
+       headline, location, contact_email, phone, created_at 
+FROM users 
+WHERE user_id = $1
     `;
     const result = await pool.query(queryText, [id]);
 
@@ -39,16 +40,17 @@ const updateUser = async (req, res) => {
     }
 
     // 3. Get new values from req.body
-    const { first_name, last_name, headline, location } = req.body;
+   const { first_name, last_name, headline, location, contact_email, phone } = req.body
 
     // 4. Run the UPDATE query
     const queryText = `
       UPDATE users 
-      SET first_name = $1, last_name = $2, headline = $3, location = $4, updated_at = NOW()
-      WHERE user_id = $5
-      RETURNING user_id, first_name, last_name, email, role, headline, location
+SET first_name = $1, last_name = $2, headline = $3, location = $4, 
+    contact_email = $5, phone = $6, updated_at = NOW()
+WHERE user_id = $7
+RETURNING user_id, first_name, last_name, email, role, headline, location, contact_email, phone
     `;
-    const values = [first_name, last_name, headline, location, targetUserId];
+    const values = [first_name, last_name, headline, location, contact_email, phone, req.user.user_id]
     const result = await pool.query(queryText, values);
 
     // 5. If user record somehow doesn't exist anymore
