@@ -151,14 +151,25 @@ const getUserPosts = async (req, res) => {
     // 1. Get user id from URL
     const { userId } = req.params 
 
-    // 2. Query the database for posts by that user
+    // 2. Query the database for posts by that user, including likes/comments counts and whether the current user liked each post
     const result = await pool.query(
-      `SELECT p.*, u.first_name, u.last_name, u.profile_picture_url
-        FROM posts p
-        JOIN users u ON p.user_id = u.user_id
-        WHERE p.user_id = $1
-        ORDER BY p.created_at DESC`,
-      [userId]
+      `SELECT p.*, u.first_name, u.last_name, u.profile_picture_url,
+        COALESCE(l.like_count, 0) AS like_count,
+        COALESCE(c.comment_count, 0) AS comment_count,
+        EXISTS(
+          SELECT 1 FROM post_likes pl WHERE pl.post_id = p.post_id AND pl.user_id = $2
+        ) AS liked_by_user
+       FROM posts p
+       JOIN users u ON p.user_id = u.user_id
+       LEFT JOIN (
+         SELECT post_id, COUNT(*) AS like_count FROM post_likes GROUP BY post_id
+       ) l ON l.post_id = p.post_id
+       LEFT JOIN (
+         SELECT post_id, COUNT(*) AS comment_count FROM comments GROUP BY post_id
+       ) c ON c.post_id = p.post_id
+       WHERE p.user_id = $1
+       ORDER BY p.created_at DESC`,
+      [userId, req.user.user_id]
     )
 
     return res.status(200).json(result.rows)

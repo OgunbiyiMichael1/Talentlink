@@ -120,7 +120,20 @@
               <input type="text" id="lastName"
                 class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
             </div>
+      
           </div>
+                <div>
+  <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">Contact Email</label>
+  <input type="email" id="contactEmail" placeholder="public@email.com"
+    class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+  <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs mt-1">This email will be visible to others on your public profile</p>
+</div>
+<div>
+  <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">Phone Number</label>
+  <input type="tel" id="phone" placeholder="+234 800 000 0000"
+    class="w-full px-4 py-3 rounded-lg border border-[#E5E7EB] dark:border-[#014421] bg-[#FCFCFC] dark:bg-[#022F1F] text-[#222222] dark:text-white focus:outline-none focus:border-[#009B77] transition-colors">
+  <p class="text-[#4B5563] dark:text-[#D9D9D9] text-xs mt-1">Optional — visible to your connections only</p>
+</div>
           <div>
             <label class="block text-sm font-medium text-[#222222] dark:text-white mb-2">Headline</label>
             <input type="text" id="headline" placeholder="e.g. Junior Full-Stack Developer"
@@ -182,242 +195,8 @@
     </div>
   </div>
 
-  <script>
-    // Dark mode
-    function toggleTheme() {
-      const isDark = document.documentElement.classList.toggle('dark')
-      localStorage.theme = isDark ? 'dark' : 'light'
-      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
-      document.getElementById('themeIconMobile').textContent = isDark ? '☀️' : '🌙'
-    }
-    document.getElementById('themeToggle').addEventListener('click', toggleTheme)
-    document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme)
-    document.getElementById('hamburger').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden')
-      document.getElementById('menuOpen').classList.toggle('hidden')
-      document.getElementById('menuClose').classList.toggle('hidden')
-    })
-
-    const user = JSON.parse(localStorage.getItem('user'))
-    if (!user) window.location.href = 'login.html'
-
-    async function logout() {
-      await fetch('http://127.0.0.1:5000/api/auth/logout', { method: 'POST', credentials: 'include' })
-      localStorage.removeItem('user')
-      window.location.href = 'login.html'
-    }
-
-    function showSuccess(msg) {
-      const el = document.getElementById('successMsg')
-      el.textContent = msg
-      el.classList.remove('hidden')
-      setTimeout(() => el.classList.add('hidden'), 3000)
-    }
-
-    function showError(msg) {
-      const el = document.getElementById('errorMsg')
-      el.textContent = msg
-      el.classList.remove('hidden')
-      setTimeout(() => el.classList.add('hidden'), 3000)
-    }
-
-    // Load user data
-    async function loadProfile() {
-      try {
-        const [userRes, candidateRes] = await Promise.all([
-          fetch(`http://127.0.0.1:5000/api/users/${user.user_id}`, { credentials: 'include' }),
-          fetch(`http://127.0.0.1:5000/api/candidates/${user.user_id}`, { credentials: 'include' })
-        ])
-
-        const userData = await userRes.json()
-        const candidateData = await candidateRes.json()
-
-        // Fill basic info
-        document.getElementById('firstName').value = userData.first_name || ''
-        document.getElementById('lastName').value = userData.last_name || ''
-        document.getElementById('headline').value = userData.headline || ''
-        document.getElementById('location').value = userData.location || ''
-
-        // Fill professional info
-        document.getElementById('bio').value = candidateData.bio || ''
-        document.getElementById('skills').value = candidateData.skills || ''
-        document.getElementById('githubUrl').value = candidateData.github_url || ''
-        document.getElementById('linkedinUrl').value = candidateData.linkedin_url || ''
-
-        // Update profile card
-        document.getElementById('profileName').textContent = `${userData.first_name} ${userData.last_name}`
-        document.getElementById('profileHeadline').textContent = userData.headline || 'TalentLink Member'
-        document.getElementById('profileLocation').textContent = userData.location ? `📍 ${userData.location}` : ''
-
-        // Avatar
-        if (userData.profile_picture_url) {
-          document.getElementById('avatarDisplay').innerHTML = `<img src="${userData.profile_picture_url}" class="w-full h-full object-cover">`
-        } else {
-          document.getElementById('avatarDisplay').textContent = userData.first_name[0] + userData.last_name[0]
-        }
-
-        // Resume
-        if (candidateData.resume_url) {
-          document.getElementById('resumeStatus').innerHTML = `<a href="${candidateData.resume_url}" target="_blank" class="text-[#009B77] hover:underline">📄 View Resume</a>`
-        }
-
-        // Social links
-        const socialLinks = document.getElementById('socialLinks')
-        socialLinks.innerHTML = ''
-        if (candidateData.github_url) {
-          socialLinks.innerHTML += `<a href="${candidateData.github_url}" target="_blank" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">🐙 GitHub</a>`
-        }
-        if (candidateData.linkedin_url) {
-          socialLinks.innerHTML += `<a href="${candidateData.linkedin_url}" target="_blank" class="text-[#4B5563] dark:text-[#D9D9D9] hover:text-[#009B77] text-sm transition-colors">💼 LinkedIn</a>`
-        }
-
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    // Update basic info
-    async function updateBasicInfo() {
-      const btn = document.getElementById('basicInfoBtn')
-      btn.textContent = '⏳ Saving...'
-      btn.disabled = true
-
-      try {
-        const response = await fetch(`http://127.0.0.1:5000/api/users/${user.user_id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({
-            first_name: document.getElementById('firstName').value,
-            last_name: document.getElementById('lastName').value,
-            headline: document.getElementById('headline').value,
-            location: document.getElementById('location').value
-          })
-        })
-
-        if (response.ok) {
-          showSuccess('Basic info updated successfully')
-          btn.textContent = '✅ Saved!'
-          setTimeout(() => { btn.textContent = 'Save Basic Info'; btn.disabled = false }, 2000)
-          loadProfile()
-        } else {
-          showError('Failed to update')
-          btn.textContent = 'Save Basic Info'
-          btn.disabled = false
-        }
-      } catch (error) {
-        showError('Something went wrong')
-        btn.textContent = 'Save Basic Info'
-        btn.disabled = false
-      }
-    }
-
-    // Update professional info
-    async function updateProfessionalInfo() {
-      const btn = document.getElementById('professionalInfoBtn')
-      btn.textContent = '⏳ Saving...'
-      btn.disabled = true
-
-      try {
-        const response = await fetch(`http://127.0.0.1:5000/api/candidates/${user.user_id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({
-            bio: document.getElementById('bio').value,
-            skills: document.getElementById('skills').value,
-            github_url: document.getElementById('githubUrl').value,
-            linkedin_url: document.getElementById('linkedinUrl').value
-          })
-        })
-
-        if (response.ok) {
-          showSuccess('Professional info updated successfully')
-          btn.textContent = '✅ Saved!'
-          setTimeout(() => { btn.textContent = 'Save Professional Info'; btn.disabled = false }, 2000)
-          loadProfile()
-        } else {
-          showError('Failed to update')
-          btn.textContent = 'Save Professional Info'
-          btn.disabled = false
-        }
-      } catch (error) {
-        showError('Something went wrong')
-        btn.textContent = 'Save Professional Info'
-        btn.disabled = false
-      }
-    }
-
-    // Upload avatar
-    async function uploadAvatar(input) {
-      const file = input.files[0]
-      if (!file) return
-
-      const formData = new FormData()
-      formData.append('image', file)
-
-      try {
-        const response = await fetch('http://127.0.0.1:5000/api/upload/profile-picture', {
-          method: 'POST',
-          credentials: 'include',
-          body: formData
-        })
-
-        if (response.ok) {
-          showSuccess('Profile picture updated!')
-          loadProfile()
-        }
-      } catch (error) {
-        showError('Failed to upload image')
-      }
-    }
-
-    // Upload resume
-    async function uploadResume(input) {
-      const file = input.files[0]
-      if (!file) return
-
-      const formData = new FormData()
-      formData.append('resume', file)
-
-      try {
-        const response = await fetch('http://127.0.0.1:5000/api/upload/resume', {
-          method: 'POST',
-          credentials: 'include',
-          body: formData
-        })
-
-        if (response.ok) {
-          showSuccess('Resume uploaded successfully!')
-          loadProfile()
-        }
-      } catch (error) {
-        showError('Failed to upload resume')
-      }
-    }
-
-    // Delete account
-    async function deleteAccount() {
-      if (!confirm('Are you sure? This will permanently delete your account and all your data.')) return
-      if (!confirm('This cannot be undone. Are you absolutely sure?')) return
-
-      try {
-        const response = await fetch(`http://127.0.0.1:5000/api/users/${user.user_id}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        })
-
-        if (response.ok) {
-          localStorage.removeItem('user')
-          window.location.href = 'index.html'
-        }
-      } catch (error) {
-        showError('Failed to delete account')
-      }
-    }
-
-    loadProfile()
-  </script>
-
+  <script src="./js/api.js"></script>
+  <script src="./js/profile.js"></script>
+  <script src="./js/lightbox.js"></script>
 </body>
 </html>

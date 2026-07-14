@@ -62,6 +62,7 @@
 
   </div>
 
+  <script src="./js/api.js"></script>
   <script>
     document.getElementById('themeToggle').addEventListener('click', () => {
       const isDark = document.documentElement.classList.toggle('dark')
@@ -89,7 +90,7 @@
       if (!query) return
 
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/users/search?query=${encodeURIComponent(query)}`, {
+        const response = await fetch(`${API_BASE}/api/users/search?query=${encodeURIComponent(query)}`, {
           credentials: 'include'
         })
         const data = await response.json()
@@ -164,5 +165,6 @@
     runSearch()
   </script>
 
+  <script src="./js/lightbox.js"></script>
 </body>
 </html>

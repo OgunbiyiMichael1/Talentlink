@@ -108,4 +108,27 @@ const uploadResume = async (req, res) => {
   }
 }
 
-module.exports = { uploadProfilePicture, uploadCompanyLogo, uploadResume }
+const uploadPostImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' })
+    }
+
+    const result = await uploadToCloudinary(
+      req.file.buffer,
+      'talentlink/posts'
+    )
+
+    // Just return the URL — don't update any database column
+    res.status(200).json({ 
+      message: 'Image uploaded successfully',
+      url: result.secure_url 
+    })
+
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
+module.exports = { uploadProfilePicture, uploadCompanyLogo, uploadResume, uploadPostImage }

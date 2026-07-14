@@ -113,70 +113,8 @@
   </div>
 
   <script src="./js/helpers.js"></script>
-  <script>
-    // Dark mode
-    document.getElementById('themeToggle').addEventListener('click', () => {
-      const isDark = document.documentElement.classList.toggle('dark')
-      localStorage.theme = isDark ? 'dark' : 'light'
-      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
-    })
-
-    // Toggle password visibility
-    function togglePassword() {
-      const input = document.getElementById('password')
-      input.type = input.type === 'password' ? 'text' : 'password'
-    }
-
-    // Login function
-    async function login() {
-      const errorMsg = document.getElementById('errorMsg')
-      const submitBtn = document.getElementById('submitBtn')
-
-      const email = document.getElementById('email').value.trim()
-      const password = document.getElementById('password').value
-
-      if (!email || !password) {
-        errorMsg.textContent = 'Please fill in all fields'
-        errorMsg.classList.remove('hidden')
-        return
-      }
-
-      setButtonLoading(submitBtn, '⏳ Logging in...')
-      errorMsg.classList.add('hidden')
-
-      try {
-        const response = await fetch('http://127.0.0.1:5000/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ email, password })
-        })
-
-        const data = await response.json()
-
-        if (!response.ok) {
-          errorMsg.textContent = data.message || 'Login failed'
-          errorMsg.classList.remove('hidden')
-          resetButtonState(submitBtn, 'Login')
-          return
-        }
-
-        // Store user info
-        localStorage.setItem('user', JSON.stringify(data.user))
-
-        // Redirect based on role
-        // After successful login check for redirect
-const params = new URLSearchParams(window.location.search)
-const redirect = params.get('redirect')
-window.location.href = redirect || (data.user.role === 'employer' ? 'employer-dashboard.html' : 'dashboard.html')
-
-      } catch (error) {
-        errorMsg.textContent = 'Something went wrong. Please try again.'
-        errorMsg.classList.remove('hidden')
-        resetButtonState(submitBtn, 'Login')
-      }
-    }
-  </script>
-
+  <script src="./js/api.js"></script>
+  <script src="./js/login.js"></script>
+  <script src="./js/lightbox.js"></script>
 </body>
 </html>
