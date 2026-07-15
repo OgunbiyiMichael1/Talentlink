@@ -17,7 +17,7 @@
     if (!user || user.role !== 'employer') window.location.href = 'login.html'
 
     async function logout() {
-      await fetch(API_BASE + '/api/auth/logout', { method: 'POST', credentials: 'include' })
+      await fetchWithAuth(API_BASE + '/api/auth/logout', { method: 'POST', credentials: 'include' })
       localStorage.removeItem('user')
       window.location.href = 'login.html'
     }
@@ -34,7 +34,7 @@
     // Load employer profile
     async function loadProfile() {
       try {
-        const response = await fetch(`${API_BASE}/api/employers/${user.user_id}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/employers/${user.user_id}`, {
           credentials: 'include'
         })
         const profile = await response.json()
@@ -53,7 +53,7 @@
     // Load jobs
     async function loadJobs() {
   try {
-    const response = await fetch(`${API_BASE}/api/jobs/employer/${user.user_id}`, {
+    const response = await fetchWithAuth(`${API_BASE}/api/jobs/employer/${user.user_id}`, {
       credentials: 'include'
     })
     const jobs = await response.json()
@@ -79,7 +79,7 @@
     let totalApplicants = 0
     await Promise.all(jobs.map(async (job) => {
       try {
-        const appRes = await fetch(`${API_BASE}/api/applications/job/${job.job_id}`, {
+        const appRes = await fetchWithAuth(`${API_BASE}/api/applications/job/${job.job_id}`, {
           credentials: 'include'
         })
         const applicants = await appRes.json()
@@ -131,7 +131,7 @@
       document.getElementById('applicantsContainer').innerHTML = '<p class="text-[#4B5563] dark:text-[#D9D9D9]">Loading applicants...</p>'
 
       try {
-        const response = await fetch(`${API_BASE}/api/applications/job/${jobId}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/applications/job/${jobId}`, {
           credentials: 'include'
         })
         const applicants = await response.json()
@@ -193,7 +193,7 @@
     // Update application status
     async function updateStatus(applicationId, status) {
       try {
-        await fetch(`${API_BASE}/api/applications/${applicationId}/status`, {
+        await fetchWithAuth(`${API_BASE}/api/applications/${applicationId}/status`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -228,7 +228,7 @@
       errorMsg.classList.add('hidden')
 
       try {
-        const response = await fetch(`${API_BASE}/api/jobs`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/jobs`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -269,7 +269,7 @@
   btn.disabled = true
 
   try {
-      const response = await fetch(`${API_BASE}/api/jobs/${jobId}/close`, {
+      const response = await fetchWithAuth(`${API_BASE}/api/jobs/${jobId}/close`, {
         method: 'PATCH',
         credentials: 'include'
     })  
@@ -294,7 +294,7 @@
     async function deleteJob(jobId) {
       if (!confirm('Delete this job? All applications will be removed.')) return
       try {
-        await fetch(`${API_BASE}/api/jobs/${jobId}`, {
+        await fetchWithAuth(`${API_BASE}/api/jobs/${jobId}`, {
           method: 'DELETE',
           credentials: 'include'
         })
@@ -311,7 +311,7 @@
       btn.disabled = true
 
       try {
-        const response = await fetch(`${API_BASE}/api/employers/${user.user_id}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/employers/${user.user_id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

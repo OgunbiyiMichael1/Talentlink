@@ -90,7 +90,7 @@
       if (!query) return
 
       try {
-        const response = await fetch(`${API_BASE}/api/users/search?query=${encodeURIComponent(query)}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/users/search?query=${encodeURIComponent(query)}`, {
           credentials: 'include'
         })
         const data = await response.json()

@@ -18,7 +18,7 @@
       if (jobType) url += `job_type=${encodeURIComponent(jobType)}`
 
       try {
-        const response = await fetch(url, { credentials: 'include' })
+        const response = await fetchWithAuth(url, { credentials: 'include' })
         const jobs = await response.json()
         renderJobs(jobs)
       } catch (error) {

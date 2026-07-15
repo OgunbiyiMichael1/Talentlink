@@ -17,7 +17,7 @@
     if (!user) window.location.href = 'login.html'
 
     async function logout() {
-      await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' })
+      await fetchWithAuth(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' })
        localStorage.removeItem('user')
   localStorage.removeItem('token')
   window.location.href = 'login.html'  
@@ -40,7 +40,7 @@
     // Load user data
     async function loadProfile() {
   try {
-    const userRes = await fetch(`${API_BASE}/api/users/${user.user_id}`, { 
+    const userRes = await fetchWithAuth(`${API_BASE}/api/users/${user.user_id}`, { 
       credentials: 'include' 
     })
     const userData = await userRes.json()
@@ -48,7 +48,7 @@
     // Only fetch candidate profile if user is a candidate
     let candidateData = {}
     if (user.role === 'candidate') {
-      const candidateRes = await fetch(`${API_BASE}/api/candidates/${user.user_id}`, { 
+      const candidateRes = await fetchWithAuth(`${API_BASE}/api/candidates/${user.user_id}`, { 
         credentials: 'include' 
       })
       candidateData = await candidateRes.json()
@@ -111,7 +111,7 @@
       btn.disabled = true
 
       try {
-        const response = await fetch(`${API_BASE}/api/users/${user.user_id}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/users/${user.user_id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -149,7 +149,7 @@
       btn.disabled = true
 
       try {
-        const response = await fetch(`${API_BASE}/api/candidates/${user.user_id}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/candidates/${user.user_id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -187,7 +187,7 @@
       formData.append('image', file)
 
       try {
-        const response = await fetch(API_BASE + '/api/upload/profile-picture', {
+        const response = await fetchWithAuth(API_BASE + '/api/upload/profile-picture', {
           method: 'POST',
           credentials: 'include',
           body: formData
@@ -211,7 +211,7 @@
       formData.append('resume', file)
 
       try {
-        const response = await fetch(API_BASE + '/api/upload/resume', {
+        const response = await fetchWithAuth(API_BASE + '/api/upload/resume', {
           method: 'POST',
           credentials: 'include',
           body: formData
@@ -232,7 +232,7 @@
       if (!confirm('This cannot be undone. Are you absolutely sure?')) return
 
       try {
-        const response = await fetch(`${API_BASE}/api/users/${user.user_id}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/users/${user.user_id}`, {
           method: 'DELETE',
           credentials: 'include'
         })

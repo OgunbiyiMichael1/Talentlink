@@ -21,7 +21,7 @@
       setButtonLoading(btn, '⏳ Logging out...')
 
       try {
-        await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' })
+        await fetchWithAuth(`${API_BASE}/api/auth/logout`, { method: 'POST', })
       } catch (error) {
         console.error(error)
       } finally {
@@ -41,7 +41,7 @@
 
     async function loadApplications() {
       try {
-        const response = await fetch(`${API_BASE}/api/applications/candidate/${user.user_id}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/applications/candidate/${user.user_id}`, {
           credentials: 'include'
         })
         const applications = await response.json()
@@ -103,9 +103,8 @@
       if (!confirm('Withdraw this application?')) return
       setButtonLoading(btn, '⏳ Withdrawing...')
       try {
-        const response = await fetch(`${API_BASE}/api/applications/${applicationId}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/applications/${applicationId}`, {
           method: 'DELETE',
-          credentials: 'include'
         })
         if (response.ok) {
           btn.closest('.rounded-2xl')?.remove()

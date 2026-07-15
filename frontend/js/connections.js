@@ -29,7 +29,7 @@ if (user.role === 'employer') {
 }
 
     async function logout() {
-  await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' })
+  await fetchWithAuth(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' })
   localStorage.removeItem('user')
   localStorage.removeItem('token')
   window.location.href = 'login.html'
@@ -55,7 +55,7 @@ if (user.role === 'employer') {
     // Load connections
     async function loadConnections() {
       try {
-        const response = await fetch(`${API_BASE}/api/connections`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/connections`, {
           credentials: 'include'
         })
         const connections = await response.json()
@@ -110,7 +110,7 @@ if (user.role === 'employer') {
     // Load pending requests
     async function loadPending() {
       try {
-        const response = await fetch(`${API_BASE}/api/connections/pending`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/connections/pending`, {
           credentials: 'include'
         })
         const pending = await response.json()
@@ -165,7 +165,7 @@ if (user.role === 'employer') {
       btn.disabled = true
 
       try {
-        await fetch(`${API_BASE}/api/connections/${connectionId}`, {
+        await fetchWithAuth(`${API_BASE}/api/connections/${connectionId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -185,7 +185,7 @@ if (user.role === 'employer') {
       btn.disabled = true
 
       try {
-        await fetch(`${API_BASE}/api/connections/${connectionId}`, {
+        await fetchWithAuth(`${API_BASE}/api/connections/${connectionId}`, {
           method: 'DELETE',
           credentials: 'include'
         })
@@ -198,7 +198,7 @@ if (user.role === 'employer') {
     // Find people - search all users
     async function findPeople(query) {
       try {
-        const response = await fetch(`${API_BASE}/api/jobs?search=${query}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/jobs?search=${query}`, {
           credentials: 'include'
         })
       } catch (error) {
@@ -211,7 +211,7 @@ if (user.role === 'employer') {
       if (query.length < 2) return
 
       try {
-        const response = await fetch(`${API_BASE}/api/users?search=${encodeURIComponent(query)}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/users?search=${encodeURIComponent(query)}`, {
           credentials: 'include'
         })
         const users = await response.json()
@@ -255,7 +255,7 @@ if (user.role === 'employer') {
       btn.disabled = true
 
       try {
-        const response = await fetch(`${API_BASE}/api/connections`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/connections`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

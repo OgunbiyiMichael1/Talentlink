@@ -140,7 +140,7 @@
    //load profile data
   async function loadProfile() {
   try {
-    const userRes = await fetch(`${API_BASE}/api/users/${parsedProfileId}`, { 
+    const userRes = await fetchWithAuth(`${API_BASE}/api/users/${parsedProfileId}`, { 
       credentials: 'include' 
     })
     if (!userRes.ok) {
@@ -154,7 +154,7 @@
     // Only fetch candidate profile if they are a candidate
     let candidateData = {}
     if (userData.role === 'candidate') {
-      const candidateRes = await fetch(`${API_BASE}/api/candidates/${profileId}`, { 
+      const candidateRes = await fetchWithAuth(`${API_BASE}/api/candidates/${profileId}`, { 
         credentials: 'include' 
       })
       candidateData = await candidateRes.json()
@@ -163,7 +163,7 @@
     // For employers fetch their company profile instead
     let employerData = {}
     if (userData.role === 'employer') {
-      const employerRes = await fetch(`${API_BASE}/api/employers/${profileId}`, { 
+      const employerRes = await fetchWithAuth(`${API_BASE}/api/employers/${profileId}`, { 
         credentials: 'include' 
       })
       employerData = await employerRes.json()
@@ -254,7 +254,7 @@ if (userData.phone) {
       btn.disabled = true
 
       try {
-        const response = await fetch(API_BASE + '/api/connections', {
+        const response = await fetchWithAuth(API_BASE + '/api/connections', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -280,7 +280,7 @@ if (userData.phone) {
 
     async function loadUserPosts() {
   try {
-    const response = await fetch(`${API_BASE}/api/posts/user/${parsedProfileId}`, {
+    const response = await fetchWithAuth(`${API_BASE}/api/posts/user/${parsedProfileId}`, {
       credentials: 'include'
     })
     const posts = await response.json()
@@ -351,7 +351,7 @@ async function likePost(postId, btn) {
   setButtonLoading(btn, `⏳ ${isLiked ? 'Unliking' : 'Liking'}...`)
 
   try {
-    const response = await fetch(API_BASE + '/api/likes', {
+    const response = await fetchWithAuth(API_BASE + '/api/likes', {
       method: isLiked ? 'DELETE' : 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -392,7 +392,7 @@ async function loadComments(postId) {
   list.innerHTML = `<p class="text-sm text-[#4B5563] dark:text-[#D9D9D9]">Loading comments...</p>`
 
   try {
-    const response = await fetch(`${API_BASE}/api/comments/post/${postId}`, {
+    const response = await fetchWithAuth(`${API_BASE}/api/comments/post/${postId}`, {
       credentials: 'include'
     })
     if (!response.ok) {
@@ -444,7 +444,7 @@ async function addComment(postId) {
   setButtonLoading(btn, '⏳ Sending...')
 
   try {
-    const response = await fetch(API_BASE + '/api/comments', {
+    const response = await fetchWithAuth(API_BASE + '/api/comments', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -496,7 +496,7 @@ async function deleteComment(commentId, postId, btn) {
   if (!confirm('Delete this comment?')) return
   setButtonLoading(btn, '⏳ Deleting...')
   try {
-    const response = await fetch(`${API_BASE}/api/comments/${commentId}`, {
+    const response = await fetchWithAuth(`${API_BASE}/api/comments/${commentId}`, {
       method: 'DELETE',
       credentials: 'include'
     })
@@ -522,7 +522,7 @@ async function deleteComment(commentId, postId, btn) {
 
 async function loadConnectionsCount() {
   try {
-    const response = await fetch(`${API_BASE}/api/connections`, {
+    const response = await fetchWithAuth(`${API_BASE}/api/connections`, {
       credentials: 'include'
     })
     const connections = await response.json()

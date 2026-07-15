@@ -33,7 +33,7 @@
       setButtonLoading(btn, '⏳ Logging out...')
 
       try {
-        await fetch(API_BASE + '/api/auth/logout', {
+        await fetchWithAuth(API_BASE + '/api/auth/logout', {
           method: 'POST',
           credentials: 'include'
         })
@@ -48,7 +48,7 @@
     // Load posts
     async function loadPosts() {
       try {
-        const response = await fetch(`${API_BASE}/api/posts`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/posts`, {
           credentials: 'include'
         })
        const posts = await response.json()
@@ -127,7 +127,7 @@ if (user) {
   const initials = user.first_name[0] + user.last_name[0]
   
   // Fetch actual profile to get picture
-  fetch(`${API_BASE}/api/users/${user.user_id}`, { credentials: 'include' })
+  fetchWithAuth(`${API_BASE}/api/users/${user.user_id}`, { credentials: 'include' })
     .then(res => res.json())
     .then(userData => {
       if (userData.profile_picture_url) {
@@ -152,7 +152,7 @@ if (user) {
     // Load recent jobs
     async function loadRecentJobs() {
       try {
-        const response = await fetch(`${API_BASE}/api/jobs`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/jobs`, {
           credentials: 'include'
         })
         const jobs = await response.json()
@@ -212,7 +212,7 @@ async function createPost() {
     if (imageInput.files[0]) {
       const formData = new FormData()
       formData.append('image', imageInput.files[0])
-      const uploadRes = await fetch(`${API_BASE}/api/upload/post-image`, {
+      const uploadRes = await fetchWithAuth(`${API_BASE}/api/upload/post-image`, {
         method: 'POST',
         credentials: 'include',
         body: formData
@@ -221,7 +221,7 @@ async function createPost() {
       media_url = uploadData.url
     }
 
-    const response = await fetch(`${API_BASE}/api/posts`, {
+    const response = await fetchWithAuth(`${API_BASE}/api/posts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -258,7 +258,7 @@ async function createPost() {
       setButtonLoading(btn, `⏳ ${isLiked ? 'Unliking' : 'Liking'}...`)
 
       try {
-        const response = await fetch(`${API_BASE}/api/likes`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/likes`, {
           method: isLiked ? 'DELETE' : 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -299,7 +299,7 @@ async function createPost() {
       list.innerHTML = `<p class="text-sm text-[#4B5563] dark:text-[#D9D9D9]">Loading comments...</p>`
 
       try {
-        const response = await fetch(`${API_BASE}/api/comments/post/${postId}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/comments/post/${postId}`, {
           credentials: 'include'
         })
         if (!response.ok) {
@@ -353,7 +353,7 @@ async function createPost() {
       setButtonLoading(btn, '⏳ Sending...')
 
       try {
-        const response = await fetch(`${API_BASE}/api/comments`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/comments`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -406,7 +406,7 @@ async function createPost() {
       if (!confirm('Delete this comment?')) return
       setButtonLoading(btn, '⏳ Deleting...')
       try {
-        const response = await fetch(`${API_BASE}/api/comments/${commentId}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/comments/${commentId}`, {
           method: 'DELETE',
           credentials: 'include'
         })
@@ -435,7 +435,7 @@ async function createPost() {
       if (!confirm('Delete this post?')) return
       setButtonLoading(btn, '⏳ Deleting...')
       try {
-        await fetch(`${API_BASE}/api/posts/${postId}`, {
+        await fetchWithAuth(`${API_BASE}/api/posts/${postId}`, {
           method: 'DELETE',
           credentials: 'include'
         })

@@ -12,14 +12,18 @@ const getHeaders = () => {
 
 // Wrapper for direct fetch calls (when you need custom config)
 const fetchWithAuth = (url, options = {}) => {
-  const defaultHeaders = getHeaders()
-  const mergedHeaders = { ...defaultHeaders, ...options.headers }
+  const token = localStorage.getItem('token')
   return fetch(url, {
-    credentials: 'include',
     ...options,
-    headers: mergedHeaders
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { 'Authorization': `Bearer ${token}` }),
+      ...(options.headers || {})
+    }
   })
 }
+
 
 const api = {
   get: (endpoint) => fetch(`${API_BASE}${endpoint}`, {

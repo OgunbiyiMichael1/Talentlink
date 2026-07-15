@@ -43,7 +43,7 @@ async function register() {
   errorMsg.classList.add('hidden')
 
   try {
-    const response = await fetch(`${API_BASE}/api/auth/register`, {
+    const response = await fetchWithAuth(`${API_BASE}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

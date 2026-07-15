@@ -30,7 +30,7 @@
       }
 
       try {
-        const response = await fetch(`${API_BASE}/api/jobs/${jobId}`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/jobs/${jobId}`, {
           credentials: 'include'
         })
         const job = await response.json()
@@ -82,7 +82,7 @@
       setButtonLoading(applyBtn, '⏳ Applying...')
 
       try {
-        const response = await fetch(`${API_BASE}/api/applications`, {
+        const response = await fetchWithAuth(`${API_BASE}/api/applications`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

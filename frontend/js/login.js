@@ -20,7 +20,7 @@ async function login() {
   errorMsg.classList.add('hidden')
 
   try {
-    const response = await fetch(`${API_BASE}/api/auth/login`, {
+    const response = await fetchWithAuth(`${API_BASE}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
