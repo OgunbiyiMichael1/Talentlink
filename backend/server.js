@@ -59,6 +59,9 @@ app.use('/api/connections', connectionRoutes)
 app.use('/api/posts', postRoutes)
 app.use('/api/comments', commentRoutes)
 app.use('/api/likes', likeRoutes)
+// Debug routes to help diagnose CORS/cookie issues
+const debugRoutes = require('./routes/debugRoutes')
+app.use('/api/debug', debugRoutes)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
