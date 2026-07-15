@@ -29,10 +29,12 @@ if (user.role === 'employer') {
 }
 
     async function logout() {
-      await fetch(API_BASE + '/api/auth/logout', { method: 'POST', credentials: 'include' })
-      localStorage.removeItem('user')
-      window.location.href = 'login.html'
-    }
+  await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' })
+  localStorage.removeItem('user')
+  localStorage.removeItem('token')
+  window.location.href = 'login.html'
+}
+    
 
     // Switch tabs
     function switchTab(tab) {
@@ -53,7 +55,7 @@ if (user.role === 'employer') {
     // Load connections
     async function loadConnections() {
       try {
-        const response = await fetch(API_BASE + '/api/connections', {
+        const response = await fetch(`${API_BASE}/api/connections`, {
           credentials: 'include'
         })
         const connections = await response.json()
@@ -108,7 +110,7 @@ if (user.role === 'employer') {
     // Load pending requests
     async function loadPending() {
       try {
-        const response = await fetch(API_BASE + '/api/connections/pending', {
+        const response = await fetch(`${API_BASE}/api/connections/pending`, {
           credentials: 'include'
         })
         const pending = await response.json()

@@ -76,3 +76,6 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   localStorage.theme = isDark ? 'dark' : 'light'
   document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
 })
+
+localStorage.setItem('user', JSON.stringify(data.user))
+localStorage.setItem('token', data.token)

@@ -26,7 +26,8 @@
         console.error(error)
       } finally {
         localStorage.removeItem('user')
-        window.location.href = 'login.html'
+  localStorage.removeItem('token')
+  window.location.href = 'login.html'
       }
     }
 

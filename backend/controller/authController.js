@@ -78,16 +78,18 @@
 
 
       // 6. Send back response
-      res.status(201).json({
-        message: 'Account created successfully',
-        user: {
-          user_id: user.user_id,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          email: user.email,
-          role: user.role
-        }
-      })
+      // 6. Send back response
+res.status(201).json({
+  message: 'Account created successfully',
+  token: token,
+  user: {
+    user_id: user.user_id,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    role: user.role
+  }
+})
 
     } catch (error) {
       // IF ANYTHING FAILS, ROLLBACK EVERYTHING INSIDE THE TRANSACTION
@@ -140,15 +142,16 @@
 
       // 4. Send back response
       res.status(200).json({
-        message: 'Login successful',
-        user: {
-          user_id: user.user_id,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          email: user.email,
-          role: user.role
-        }
-      })
+  message: 'Login successful',
+  token: token,
+  user: {
+    user_id: user.user_id,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    role: user.role
+  }
+})
 
     } catch (error) {
       console.error(error)
