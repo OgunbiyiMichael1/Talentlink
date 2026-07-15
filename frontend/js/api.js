@@ -1,4 +1,4 @@
-const API_BASE = 'http://127.0.0.1:5000'
+const API_BASE = 'https://talentlink-giqi.onrender.com'
 
 const api = {
   get: (endpoint) => fetch(`${API_BASE}${endpoint}`, { credentials: 'include' }),
