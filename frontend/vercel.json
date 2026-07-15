@@ -2,11 +2,5 @@
   "routes": [
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/404.html" }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/proxy/:path*",
-      "destination": "https://talentlink-giqi.onrender.com/:path*"
-    }
   ]
 }

@@ -1,6 +1,6 @@
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://127.0.0.1:5000'
-  : `${window.location.origin}/api/proxy`; // Points to Vercel's proxy rewrite route
+  : 'https://talentlink-giqi.onrender.com'
 
 const api = {
   get: (endpoint) => fetch(`${API_BASE}${endpoint}`, { credentials: 'include' }),
