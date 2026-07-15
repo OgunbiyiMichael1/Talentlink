@@ -57,5 +57,3 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
 })
 
-localStorage.setItem('user', JSON.stringify(data.user))
-localStorage.setItem('token', data.token)

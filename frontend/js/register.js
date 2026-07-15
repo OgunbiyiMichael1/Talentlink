@@ -61,6 +61,7 @@ async function register() {
     }
 
     localStorage.setItem('user', JSON.stringify(data.user))
+    localStorage.setItem('token', data.token)
     window.location.href = 'dashboard.html'
 
   } catch (error) {
@@ -77,5 +78,3 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙'
 })
 
-localStorage.setItem('user', JSON.stringify(data.user))
-localStorage.setItem('token', data.token)
