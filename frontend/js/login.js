@@ -38,6 +38,7 @@ async function login() {
     }
 
     localStorage.setItem('user', JSON.stringify(data.user))
+    localStorage.setItem('token', data.token)
     const params = new URLSearchParams(window.location.search)
     const redirect = params.get('redirect')
     window.location.href = redirect || (data.user.role === 'employer' ? 'employer-dashboard.html' : 'dashboard.html')

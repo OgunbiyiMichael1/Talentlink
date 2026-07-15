@@ -10,6 +10,17 @@ const getHeaders = () => {
   }
 }
 
+// Wrapper for direct fetch calls (when you need custom config)
+const fetchWithAuth = (url, options = {}) => {
+  const defaultHeaders = getHeaders()
+  const mergedHeaders = { ...defaultHeaders, ...options.headers }
+  return fetch(url, {
+    credentials: 'include',
+    ...options,
+    headers: mergedHeaders
+  })
+}
+
 const api = {
   get: (endpoint) => fetch(`${API_BASE}${endpoint}`, {
     credentials: 'include',

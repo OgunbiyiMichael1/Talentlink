@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+
 const protect = (req, res, next) => {
   try {
     // Check cookie first, then Authorization header
@@ -22,3 +24,5 @@ const protect = (req, res, next) => {
     return res.status(401).json({ message: 'Token is invalid or expired' })
   }
 }
+
+module.exports = { protect }
