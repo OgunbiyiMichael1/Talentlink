@@ -253,7 +253,7 @@ if (user.role === 'employer') {
       btn.disabled = true
 
       try {
-        const response = await fetch(API_BASE + '/api/connections', {
+        const response = await fetch(`${API_BASE}/api/connections`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

@@ -82,7 +82,7 @@
       setButtonLoading(applyBtn, '⏳ Applying...')
 
       try {
-        const response = await fetch(API_BASE + '/api/applications', {
+        const response = await fetch(`${API_BASE}/api/applications`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

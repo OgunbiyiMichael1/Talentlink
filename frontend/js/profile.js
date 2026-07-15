@@ -17,7 +17,7 @@
     if (!user) window.location.href = 'login.html'
 
     async function logout() {
-      await fetch(API_BASE + '/api/auth/logout', { method: 'POST', credentials: 'include' })
+      await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' })
       localStorage.removeItem('user')
       window.location.href = 'login.html'
     }
