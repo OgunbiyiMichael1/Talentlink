@@ -21,26 +21,8 @@ const app = express()
 //middleware
 app.use(express.json())
 app.use(cookieParser())
-// Configure allowed origins via env var for deployments. Comma-separated list.
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim())
-  : [
-    'http://localhost:5500',
-    'http://127.0.0.1:5500',
-    'http://localhost:5501',
-    'http://127.0.0.1:5501',
-    'https://talentlink-topaz.vercel.app'
-  ]
-
-console.log('Allowed CORS origins:', allowedOrigins)
-
 app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin like mobile apps or curl
-    if (!origin) return callback(null, true)
-    if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true)
-    return callback(new Error('Not allowed by CORS'))
-  },
+  origin: ['http://localhost:5500', 'http://127.0.0.1:5500', 'http://localhost:5501', 'http://127.0.0.1:5501', 'https://talentlink-giqi.onrender.com'],
   credentials: true
 }))
 
@@ -59,9 +41,6 @@ app.use('/api/connections', connectionRoutes)
 app.use('/api/posts', postRoutes)
 app.use('/api/comments', commentRoutes)
 app.use('/api/likes', likeRoutes)
-// Debug routes to help diagnose CORS/cookie issues
-const debugRoutes = require('./routes/debugRoutes')
-app.use('/api/debug', debugRoutes)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
