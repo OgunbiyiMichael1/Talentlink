@@ -21,14 +21,26 @@ const app = express()
 //middleware
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({
-  origin: [
-    'http://localhost:5500', 
-    'http://127.0.0.1:5500', 
-    'http://localhost:5501', 
+// Configure allowed origins via env var for deployments. Comma-separated list.
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim())
+  : [
+    'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    'http://localhost:5501',
     'http://127.0.0.1:5501',
     'https://talentlink-topaz.vercel.app'
-  ],
+  ]
+
+console.log('Allowed CORS origins:', allowedOrigins)
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin like mobile apps or curl
+    if (!origin) return callback(null, true)
+    if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true)
+    return callback(new Error('Not allowed by CORS'))
+  },
   credentials: true
 }))
 
