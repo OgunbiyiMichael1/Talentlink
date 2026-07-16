@@ -1,4 +1,4 @@
-# TalentLink 🌿
+# TalentLink 
 ### Where Talent Owners and Talent Finders Meet
 
 TalentLink is a full-stack professional networking and job board platform that connects candidates with employers. Built as a portfolio project to demonstrate full-stack development skills.
